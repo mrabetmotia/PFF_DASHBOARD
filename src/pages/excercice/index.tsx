@@ -44,7 +44,7 @@ const Table = () => {
     try {
       const response = await axios.delete(`http://localhost:9000/excercice/${itemId}`);
       if (response.status === 200) {
-        toast.success('Item deleted successfully');
+        toast.info('Item deleted successfully');
         fetchData(); // Refresh data after deletion
       } else {
         throw new Error('Network response was not ok');
@@ -76,7 +76,11 @@ const Table = () => {
     setDeleteDialogOpen(false);
     setSelectedItemId(null);
   };
-
+  useEffect(() => {
+    if (!isLoggedIn) {
+      router.push('/');
+    }
+  }, [isLoggedIn, router]);
   return (
     <>
       <div className="filtreEx">

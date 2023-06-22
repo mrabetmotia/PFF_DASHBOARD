@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useAuth } from '@/context/AuthContext';
+import { useRouter } from 'next/router';
 
 export default function Home() {
   const [coachCount, setCoachCount] = useState(0);
@@ -12,6 +14,8 @@ export default function Home() {
   const [exerciseData, setExerciseData] = useState([]);
   const [typeData, setTypeData] = useState([]);
   const [clientData, setClientData] = useState([]);
+  const { isLoggedIn } = useAuth()
+  const router = useRouter();
 
   useEffect(() => {
     fetchData();
@@ -47,7 +51,11 @@ export default function Home() {
       console.error('Error fetching data:', error);
     }
   };
-
+  useEffect(() => {
+    if (!isLoggedIn) {
+      router.push('/');
+    }
+  }, [isLoggedIn, router]);
   return (
     <>
       <main>

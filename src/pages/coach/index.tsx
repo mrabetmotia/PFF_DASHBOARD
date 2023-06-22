@@ -53,7 +53,7 @@ const TableCoach = () => {
     try {
       const response = await axios.delete(`http://localhost:9000/Coachs/${selectedCoachId}`);
       if (response.status === 200) {
-        toast.success('Coach deleted successfully');
+        toast.info('Coach deleted successfully');
         fetchData(); // Refresh data after deletion
       } else {
         throw new Error('Network response was not ok');
@@ -74,7 +74,11 @@ const TableCoach = () => {
   const getStatusColor = (verification) => {
     return verification === 'valide' ? 'green' : 'red';
   };
-  
+  useEffect(() => {
+    if (!isLoggedIn) {
+      router.push('/');
+    }
+  }, [isLoggedIn, router]);
   return (
     <>
       <Button

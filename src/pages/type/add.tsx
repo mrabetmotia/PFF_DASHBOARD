@@ -31,6 +31,8 @@ export default function CreateClient() {
       router.push('/type'); 
     } catch (error) {
       console.error(error);
+      toast.error('Type created error');
+
     }
   };
 

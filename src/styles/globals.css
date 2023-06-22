@@ -78,6 +78,16 @@ main{
     display: none;
 }
 
+.searchUser{
+    width: 30%;
+    margin: 10% 0 0 33%;
+    border-radius: 50px;
+}
+.searchAdmin{
+    width: 30%;
+    margin: 1% 0 0 33%;
+    border-radius: 50px;
+}
 .sidebar {
     position: fixed;
     width: 165px;
@@ -87,7 +97,7 @@ main{
     z-index: 100;
     background: var(--color-dark);
     transition: left 300ms;
-    background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6W336Lk12xo6283bBN_QGARSp1JmNpFFBfWn4BFZBXbpdi_uK7sNdL2R6ExG-QyEgldw&usqp=CAU");
+    background-image: url("https://www.shutterstock.com/image-vector/vector-layered-abstract-background-sidebar-260nw-450902500.jpg");
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -165,7 +175,7 @@ main{
 }
 
 .profile small {
-    color: #899DC1;
+    color: #000000;
     font-weight: 600;
 }
 
@@ -229,6 +239,7 @@ main{
     margin-left: 165px;
     width: calc(100% - 165px);
     transition: margin-left 300ms;
+    
 }
 
 header {

@@ -33,9 +33,9 @@ const Login = () => {
   const handleLogin = (event: any) => {
     event.preventDefault();
     try {
-        login(email, password);
+      login(email, password);
       toast('Welcome Back, Login successfully');
-      router.push('/');
+      router.push('/home');
     } catch (error) {
       if (error instanceof z.ZodError) {
         const emailError = error.issues.find((issue) => issue.path[0] === 'email');

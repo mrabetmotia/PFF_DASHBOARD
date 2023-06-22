@@ -23,7 +23,19 @@ export default function App({ Component, pageProps }) {
       <div>
         <Navbar />
         <Component {...pageProps} />
-        <ToastContainer />
+        <ToastContainer
+          Transition="zoom"
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover={false}
+          theme="dark"
+        />
 
       </div>
       </AuthProvider>

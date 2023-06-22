@@ -43,7 +43,7 @@ const Table = () => {
     try {
       await axios.delete(`http://localhost:9000/types/${_id}`);
       fetchData();
-      toast.success('Product deleted successfully');
+      toast.info('Product deleted successfully');
     } catch (error) {
       console.error('There has been a problem with your fetch operation:', error);
     } finally {
@@ -65,7 +65,11 @@ const Table = () => {
     setDeleteDialogOpen(false);
     setSelectedItemId(null);
   };
-  
+  useEffect(() => {
+    if (!isLoggedIn) {
+      router.push('/');
+    }
+  }, [isLoggedIn, router]);
   return (
     <>
       <table className="pro-table pro-tablee">

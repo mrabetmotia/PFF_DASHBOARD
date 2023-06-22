@@ -10,12 +10,16 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Dns from '@mui/icons-material/Dns';
 import ADD from './add';
+import { useAuth } from '@/context/AuthContext';
+import { useRouter } from 'next/router';
 
 const Table = () => {
   const [data, setData] = useState([]);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState(null);
   const [addDialogOpen, setAddDialogOpen] = useState(false);
+  const { isLoggedIn } = useAuth();
+  const router = useRouter();
 
   const handleAddClick = () => {
     setAddDialogOpen(true);
@@ -42,7 +46,7 @@ const Table = () => {
     try {
       await axios.delete(`http://localhost:9000/Products/${_id}`);
       fetchData();
-      toast.success('Product deleted successfully');
+      toast.info('Product deleted successfully');
     } catch (error) {
       console.error('There has been a problem with your fetch operation:', error);
     } finally {
@@ -64,7 +68,11 @@ const Table = () => {
     setDeleteDialogOpen(false);
     setSelectedItemId(null);
   };
-
+  useEffect(() => {
+    if (!isLoggedIn) {
+      router.push('/');
+    }
+  }, [isLoggedIn, router]);
   return (
     <>
       <Dialog open={addDialogOpen} onClose={handleAddCancel}>

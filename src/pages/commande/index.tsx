@@ -33,7 +33,7 @@ const CommandeTable = () => {
     try {
       await axios.delete(`http://localhost:9000/Commandes/${_id}`);
       fetchData();
-      toast.success('Commande deleted successfully');
+      toast.info('Commande deleted successfully');
     } catch (error) {
       console.error('There has been a problem with your fetch operation:', error);
     } finally {
@@ -58,7 +58,11 @@ const CommandeTable = () => {
   const getStatusColor = (verification) => {
     return verification === 'valide' ? 'green' : 'red';
   };
-  
+  useEffect(() => {
+    if (!isLoggedIn) {
+      router.push('/');
+    }
+  }, [isLoggedIn, router]);
   return (
     <>
     <h1 className='Titre'>Liste De Commande</h1>

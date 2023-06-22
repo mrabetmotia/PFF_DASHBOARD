@@ -2,7 +2,8 @@ import React, { useState , useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth } from '@/context/AuthContext';
 import jwt_decode from 'jwt-decode';
-import {MenuItem, } from '@mui/material';
+import { MenuItem, List, ListItem, ListItemIcon, ListItemText, Avatar, Typography } from '@mui/material';
+import Link from 'next/link';
 
 function Navbar() {
   const { isLoggedIn, logout } = useAuth();
@@ -32,6 +33,7 @@ function Navbar() {
   const handleLogoutClick = () => {
     logout();
     router.push('/');
+
   };
 
   return (
@@ -43,58 +45,56 @@ function Navbar() {
         <div className="side-content">
 
           <div className="profile">
-          <div className="profile-img bg-img" style={{ backgroundImage: "url(/img/1.jpeg)" }}></div>
+          <Avatar className="profile-img bg-img" alt="Profile Pic" src="/img/1.jpeg" />
 
             <h4>{formData.nom}  {formData.prenom}</h4>
             <small>{formData.email}</small>
           </div>
 
-          <div className="side-menu">
-            <ul>
-              <li>
-                <a href="/home" className="active">
-                  <span className="las la-home"></span>
-                  <small>Home</small>
-                </a>
-              </li>
-              <li>
-                <a href="/shop" >
-                  <span className="las la-store-alt"></span>
-                  <small>Liste Shop</small>
-                </a>
-              </li>
-              <li>
-                <a href="/commande" >
-                  <span className="las la-store-alt"></span>
-                  <small>Liste Commande</small>
-                </a>
-              </li>
-              <li>
-                <a href="/coach">
-                  <span className="las la-user-graduate"></span>
-                  <small>Liste Coach</small>
-                </a>
-              </li>
-              <li>
-                <a href="excercice">
-                  <span className="las la-clipboard-list"></span>
-                  <small>Liste Exsercice</small>
-                </a>
-              </li>
-              <li>
-                <a href="/user">
-                  <span className="las la-user"></span>
-                  <small>Liste User</small>
-                </a>
-              </li>
-              <li>
-                <a href="/type">
-                  <span className="las la-tasks"></span>
-                  <small>Type </small>
-                </a>
-              </li>
-            </ul>
-          </div>
+          <List>
+            <ListItem button component={Link} href="/home">
+              <ListItemIcon>
+                <span className="las la-home"></span>
+              </ListItemIcon>
+              <ListItemText primary="Home" />
+            </ListItem>
+            <ListItem button component={Link} href="/shop">
+              <ListItemIcon>
+                <span className="las la-store-alt"></span>
+              </ListItemIcon>
+              <ListItemText primary="Liste Shop" />
+            </ListItem>
+            <ListItem button component={Link} href="/commande">
+              <ListItemIcon>
+                <span className="las la-store-alt"></span>
+              </ListItemIcon>
+              <ListItemText primary="Liste Commande" />
+            </ListItem>
+            <ListItem button component={Link} href="/coach">
+              <ListItemIcon>
+                <span className="las la-user-graduate"></span>
+              </ListItemIcon>
+              <ListItemText primary="Liste Coach" />
+            </ListItem>
+            <ListItem button component={Link} href="/excercice">
+              <ListItemIcon>
+                <span className="las la-clipboard-list"></span>
+              </ListItemIcon>
+              <ListItemText primary="Liste Exsercice" />
+            </ListItem>
+            <ListItem button component={Link} href="/user">
+              <ListItemIcon>
+                <span className="las la-user"></span>
+              </ListItemIcon>
+              <ListItemText primary="Liste User" />
+            </ListItem>
+            <ListItem button component={Link} href="/type">
+              <ListItemIcon>
+                <span className="las la-tasks"></span>
+              </ListItemIcon>
+              <ListItemText primary="Type" />
+            </ListItem>
+          </List>
         </div>
       </div>
       {isLoggedIn ? (
