@@ -20,9 +20,6 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({ email: "", password: "" });
 
-  const handleRefresh = () => {
-    window.location.reload();
-  };
   const resetForm = (event) => {
     event.preventDefault();
     setEmail("");
