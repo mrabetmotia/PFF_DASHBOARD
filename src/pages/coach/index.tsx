@@ -1,15 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Link from 'next/link';
-import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
-import { toast } from 'react-toastify';
-import SaveIcon from '@mui/icons-material/Save';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import ADD from './add';
-import { useAuth } from '@/context/AuthContext';
-import { useRouter } from 'next/router';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Link from "next/link";
+import {
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from "@mui/material";
+import { toast } from "react-toastify";
+import SaveIcon from "@mui/icons-material/Save";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import ADD from "./add";
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/router";
 
 const TableCoach = () => {
   const [data, setData] = useState([]);
@@ -33,7 +39,7 @@ const TableCoach = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://localhost:9000/coachs');
+      const response = await axios.get("http://localhost:9000/coachs");
       setData(response.data);
     } catch (error) {
       console.error(error);
@@ -51,15 +57,17 @@ const TableCoach = () => {
 
   const handleDeleteConfirm = async () => {
     try {
-      const response = await axios.delete(`http://localhost:9000/Coachs/${selectedCoachId}`);
+      const response = await axios.delete(
+        `http://localhost:9000/Coachs/${selectedCoachId}`
+      );
       if (response.status === 200) {
-        toast.info('Coach deleted successfully');
+        toast.info("Coach deleted successfully");
         fetchData(); // Refresh data after deletion
       } else {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
     } catch (error) {
-      console.error('There has been a problem with the deletion:', error);
+      console.error("There has been a problem with the deletion:", error);
     } finally {
       setDeleteDialogOpen(false);
       setSelectedCoachId(null);
@@ -72,11 +80,11 @@ const TableCoach = () => {
   };
 
   const getStatusColor = (verification) => {
-    return verification === 'valide' ? 'green' : 'red';
+    return verification === "valide" ? "green" : "red";
   };
   useEffect(() => {
     if (!isLoggedIn) {
-      router.push('/');
+      router.push("/");
     }
   }, [isLoggedIn, router]);
   return (
@@ -109,6 +117,7 @@ const TableCoach = () => {
             <th>Name</th>
             <th>Email</th>
             <th>Phone</th>
+            <th>Cv</th>
             <th>Experience</th>
             <th>Description</th>
             <th>Speciality</th>
@@ -125,10 +134,15 @@ const TableCoach = () => {
               <td>{item.nom}</td>
               <td>{item.email}</td>
               <td>{item.phone}</td>
+              <td>
+                <img src={item.cv} alt={item.name} />
+              </td>
               <td>{item.experiance}</td>
               <td>{item.description}</td>
               <td>{item.spesialite}</td>
-              <td style={{ color: getStatusColor(item.verification) }}>{item.verification}</td>
+              <td style={{ color: getStatusColor(item.verification) }}>
+                {item.verification}
+              </td>
               <td>
                 <Button
                   variant="contained"
@@ -139,8 +153,16 @@ const TableCoach = () => {
                 >
                   View
                 </Button>
-                <Link href="/coach/up" as={`/coach/${item._id}`} className="detail">
-                  <Button variant="contained" color="primary" startIcon={<EditIcon />}>
+                <Link
+                  href="/coach/up"
+                  as={`/coach/${item._id}`}
+                  className="detail"
+                >
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    startIcon={<EditIcon />}
+                  >
                     Detail
                   </Button>
                 </Link>
@@ -160,7 +182,9 @@ const TableCoach = () => {
 
       <Dialog open={deleteDialogOpen} onClose={handleDeleteCancel}>
         <DialogTitle>Delete Coach</DialogTitle>
-        <DialogContent>Are you sure you want to delete this coach?</DialogContent>
+        <DialogContent>
+          Are you sure you want to delete this coach?
+        </DialogContent>
         <DialogActions>
           <Button onClick={handleDeleteCancel} color="primary">
             Cancel

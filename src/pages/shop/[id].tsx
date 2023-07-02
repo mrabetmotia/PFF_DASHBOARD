@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import { toast } from 'react-toastify';
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 const TypeDetail = () => {
   const router = useRouter();
   const { id } = router.query;
   const [item, setItem] = useState(null);
-  const [updatedName, setUpdatedName] = useState('');
-  const [updatedImage, setUpdatedImage] = useState('');
-  const [updatedKg, setUpdatedKg] = useState('');
-  const [updatedPrice, setUpdatedPrice] = useState('');
-  const [updatedDescription, setUpdatedDescription] = useState('');
+  const [updatedName, setUpdatedName] = useState("");
+  const [updatedImage, setUpdatedImage] = useState("");
+  const [updatedKg, setUpdatedKg] = useState("");
+  const [updatedPrice, setUpdatedPrice] = useState("");
+  const [updatedDescription, setUpdatedDescription] = useState("");
   const [types, setTypes] = useState([]);
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const TypeDetail = () => {
 
     const fetchTypes = async () => {
       try {
-        const response = await fetch('http://localhost:9000/type');
+        const response = await fetch("http://localhost:9000/type");
         const typesData = await response.json();
         setTypes(typesData);
       } catch (error) {
@@ -48,9 +48,9 @@ const TypeDetail = () => {
   const handleUpdate = async () => {
     try {
       const response = await fetch(`http://localhost:9000/Products/${id}`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           name: updatedName,
@@ -62,12 +62,12 @@ const TypeDetail = () => {
       });
       const updatedType = await response.json();
       setItem(updatedType);
-      setUpdatedName('');
-      setUpdatedImage('');
-      setUpdatedKg('');
-      setUpdatedPrice('');
-      setUpdatedDescription('');
-      toast.success('Product updated successfully');
+      setUpdatedName("");
+      setUpdatedImage("");
+      setUpdatedKg("");
+      setUpdatedPrice("");
+      setUpdatedDescription("");
+      toast.success("Product updated successfully");
     } catch (error) {
       console.error(error);
     }

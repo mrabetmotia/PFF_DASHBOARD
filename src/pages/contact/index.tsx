@@ -12,7 +12,6 @@ import {
 import SaveIcon from "@mui/icons-material/Save";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import ADD from "./add";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/router";
 
@@ -20,17 +19,8 @@ const Table = () => {
   const [data, setData] = useState([]);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState(null);
-  const [addDialogOpen, setAddDialogOpen] = useState(false);
   const { isLoggedIn } = useAuth();
   const router = useRouter();
-
-  const handleAddClick = () => {
-    setAddDialogOpen(true);
-  };
-
-  const handleAddCancel = () => {
-    setAddDialogOpen(false);
-  };
 
   useEffect(() => {
     fetchData();
@@ -38,18 +28,18 @@ const Table = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get("http://localhost:9000/type");
+      const response = await axios.get("http://localhost:9000/contacts");
       setData(response.data);
     } catch (error) {
       console.error("There was an error fetching the data:", error);
     }
   };
 
-  const deleteProduct = async (_id) => {
+  const deleteContact = async (_id) => {
     try {
-      await axios.delete(`http://localhost:9000/types/${_id}`);
+      await axios.delete(`http://localhost:9000/contact/${_id}`);
       fetchData();
-      toast.info("Product deleted successfully");
+      toast.info("Contact deleted successfully");
     } catch (error) {
       console.error(
         "There has been a problem with your fetch operation:",
@@ -67,24 +57,28 @@ const Table = () => {
   };
 
   const handleDeleteConfirm = () => {
-    deleteProduct(selectedItemId);
+    deleteContact(selectedItemId);
   };
 
   const handleDeleteCancel = () => {
     setDeleteDialogOpen(false);
     setSelectedItemId(null);
   };
+
   useEffect(() => {
     if (!isLoggedIn) {
       router.push("/");
     }
   }, [isLoggedIn, router]);
+
   return (
     <>
       <table className="pro-table pro-tablee">
         <thead>
           <tr>
             <th>Name</th>
+            <th>Email</th>
+            <th>Message</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -92,20 +86,9 @@ const Table = () => {
           {data.map((item) => (
             <tr key={item._id}>
               <td>{item.name}</td>
+              <td>{item.email}</td>
+              <td>{item.message}</td>
               <td>
-                <Link
-                  href="/type/up"
-                  as={`/type/${item._id}`}
-                  className="detail"
-                >
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    startIcon={<EditIcon />}
-                  >
-                    Detail
-                  </Button>
-                </Link>
                 <Button
                   variant="contained"
                   color="secondary"
@@ -120,31 +103,10 @@ const Table = () => {
         </tbody>
       </table>
 
-      <Button
-        startIcon={<SaveIcon />}
-        variant="contained"
-        color="primary"
-        className="btnadd"
-        onClick={handleAddClick}
-      >
-        Add Type
-      </Button>
-
-      <Dialog open={addDialogOpen} onClose={handleAddCancel}>
-        <DialogContent>
-          <ADD />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleAddCancel} color="primary">
-            Cancel
-          </Button>
-        </DialogActions>
-      </Dialog>
-
       <Dialog open={deleteDialogOpen} onClose={handleDeleteCancel}>
-        <DialogTitle>Delete Type</DialogTitle>
+        <DialogTitle>Delete Contact</DialogTitle>
         <DialogContent>
-          Are you sure you want to delete this type?
+          Are you sure you want to delete this contact?
         </DialogContent>
         <DialogActions>
           <Button onClick={handleDeleteCancel} color="primary">

@@ -1,6 +1,5 @@
-import { createContext, useContext, useEffect, useState } from 'react';
-import axios from 'axios';
-
+import { createContext, useContext, useEffect, useState } from "react";
+import axios from "axios";
 
 interface AuthContextType {
   isLoggedIn: boolean;
@@ -25,7 +24,7 @@ export const AuthProvider: React.FC = ({ children }) => {
 
   // Check authentication state after page refresh to get the token inside the useAuthContext
   const checkAuthState = () => {
-    const storedToken = localStorage.getItem('token');
+    const storedToken = localStorage.getItem("token");
     if (storedToken) {
       settoken(storedToken);
       setIsLoggedIn(true);
@@ -38,17 +37,17 @@ export const AuthProvider: React.FC = ({ children }) => {
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await axios.post(
-        'http://localhost:9000/login-user',
-        { email, password }
-      );
+      const response = await axios.post("http://localhost:9000/login-user", {
+        email,
+        password,
+      });
       const { token } = response.data;
       settoken(token);
       setIsLoggedIn(true);
-      localStorage.setItem('token', token);
+      localStorage.setItem("token", token);
       handleRefresh();
     } catch (error) {
-      console.error('Login failed:', error);
+      console.error("Login failed:", error);
       // Handle login failure, show error message, etc.
     }
   };
@@ -61,7 +60,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     handleRefresh();
     settoken(null);
     setIsLoggedIn(false);
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
   };
 
   return (

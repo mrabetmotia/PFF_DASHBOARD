@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import { toast } from 'react-toastify';
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 const TypeDetail = () => {
   const router = useRouter();
   const { id } = router.query;
   const [type, setType] = useState(null);
-  const [updatedName, setUpdatedName] = useState('');
+  const [updatedName, setUpdatedName] = useState("");
 
   useEffect(() => {
     const fetchTypeDetails = async () => {
@@ -27,16 +27,16 @@ const TypeDetail = () => {
   const handleUpdate = async () => {
     try {
       const response = await fetch(`http://localhost:9000/types/${id}`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ name: updatedName }),
       });
       const updatedType = await response.json();
       setType(updatedType);
-      router.push('/type');
-      toast.success('Type updated successfully');
+      router.push("/type");
+      toast.success("Type updated successfully");
     } catch (error) {
       console.error(error);
     }
@@ -58,7 +58,6 @@ const TypeDetail = () => {
         />
       </div>
       <button onClick={handleUpdate}>Update</button>
-
     </center>
   );
 };

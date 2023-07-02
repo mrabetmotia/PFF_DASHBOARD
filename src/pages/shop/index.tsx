@@ -1,17 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import Link from 'next/link';
-import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Link from "next/link";
+import {
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from "@mui/material";
 
-import SaveIcon from '@mui/icons-material/Save';
-import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
-import Dns from '@mui/icons-material/Dns';
-import ADD from './add';
-import { useAuth } from '@/context/AuthContext';
-import { useRouter } from 'next/router';
+import SaveIcon from "@mui/icons-material/Save";
+import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Dns from "@mui/icons-material/Dns";
+import ADD from "./add";
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/router";
 
 const Table = () => {
   const [data, setData] = useState([]);
@@ -35,7 +41,7 @@ const Table = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://localhost:9000/Product');
+      const response = await axios.get("http://localhost:9000/Product");
       setData(response.data);
     } catch (error) {
       console.error(error);
@@ -46,9 +52,12 @@ const Table = () => {
     try {
       await axios.delete(`http://localhost:9000/Products/${_id}`);
       fetchData();
-      toast.info('Product deleted successfully');
+      toast.info("Product deleted successfully");
     } catch (error) {
-      console.error('There has been a problem with your fetch operation:', error);
+      console.error(
+        "There has been a problem with your fetch operation:",
+        error
+      );
     } finally {
       setDeleteDialogOpen(false);
       setSelectedItemId(null);
@@ -70,7 +79,7 @@ const Table = () => {
   };
   useEffect(() => {
     if (!isLoggedIn) {
-      router.push('/');
+      router.push("/");
     }
   }, [isLoggedIn, router]);
   return (
@@ -87,7 +96,7 @@ const Table = () => {
       </Dialog>
 
       <Button
-        startIcon={<AddIcon  />}
+        startIcon={<AddIcon />}
         variant="contained"
         color="secondary"
         className="btnaddcoach"
@@ -96,7 +105,7 @@ const Table = () => {
         Add Product
       </Button>
       <Button
-        startIcon={< Dns/>}
+        startIcon={<Dns />}
         variant="contained"
         color="secondary"
         className="btnaddcoach"
@@ -125,11 +134,20 @@ const Table = () => {
               </td>
               <td>{item.kg}</td>
               <td>{item.price}</td>
-              <td>{item.type.name}</td>
+              <td>{item.type ? item.type.name : "N/A"}</td>
+
               <td>{item.description}</td>
               <td>
-                <Link href="/shop/up" as={`/shop/${item._id}`} className='detail'>
-                  <Button variant="contained" color="primary" startIcon={<SaveIcon />}>
+                <Link
+                  href="/shop/up"
+                  as={`/shop/${item._id}`}
+                  className="detail"
+                >
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    startIcon={<SaveIcon />}
+                  >
                     Detail
                   </Button>
                 </Link>
@@ -166,4 +184,3 @@ const Table = () => {
 };
 
 export default Table;
-

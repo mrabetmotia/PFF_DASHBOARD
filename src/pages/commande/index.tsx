@@ -1,13 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import { useAuth } from '@/context/AuthContext';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import {
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import { useAuth } from "@/context/AuthContext";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 const CommandeTable = () => {
   const [data, setData] = useState([]);
@@ -22,10 +27,10 @@ const CommandeTable = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://localhost:9000/Commandes');
+      const response = await axios.get("http://localhost:9000/Commandes");
       setData(response.data);
     } catch (error) {
-      console.error('There was an error fetching the data:', error);
+      console.error("There was an error fetching the data:", error);
     }
   };
 
@@ -33,9 +38,12 @@ const CommandeTable = () => {
     try {
       await axios.delete(`http://localhost:9000/Commandes/${_id}`);
       fetchData();
-      toast.info('Commande deleted successfully');
+      toast.info("Commande deleted successfully");
     } catch (error) {
-      console.error('There has been a problem with your fetch operation:', error);
+      console.error(
+        "There has been a problem with your fetch operation:",
+        error
+      );
     } finally {
       setDeleteDialogOpen(false);
       setSelectedItemId(null);
@@ -56,16 +64,16 @@ const CommandeTable = () => {
     setSelectedItemId(null);
   };
   const getStatusColor = (verification) => {
-    return verification === 'valide' ? 'green' : 'red';
+    return verification === "valide" ? "green" : "red";
   };
   useEffect(() => {
     if (!isLoggedIn) {
-      router.push('/');
+      router.push("/");
     }
   }, [isLoggedIn, router]);
   return (
     <>
-    <h1 className='Titre'>Liste De Commande</h1>
+      <h1 className="Titre">Liste De Commande</h1>
       <table className="commande-table">
         <thead>
           <tr>
@@ -82,21 +90,30 @@ const CommandeTable = () => {
           {data.map((item) => (
             <tr key={item._id}>
               <td>
-                <img src={item.image_produit} />{item.name}
+                <img src={item.image_produit} />
+                {item.name}
               </td>
               <td>{item.name_user}</td>
               <td>{item.email}</td>
               <td>{item.phone}</td>
               <td>{item.totalPrice} DT</td>
-              <td style={{ color: getStatusColor(item.verification) }}>{item.verification}</td>
+              <td style={{ color: getStatusColor(item.verification) }}>
+                {item.verification}
+              </td>
 
-              
-              
               <td>
-                <Link href={`/commande/${item._id}`} passHref className='detail'>
-                    <Button variant="contained" color="primary" startIcon={<EditIcon />}>
-                        Detail
-                    </Button>
+                <Link
+                  href={`/commande/${item._id}`}
+                  passHref
+                  className="detail"
+                >
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    startIcon={<EditIcon />}
+                  >
+                    Detail
+                  </Button>
                 </Link>
 
                 <Button
@@ -122,7 +139,11 @@ const CommandeTable = () => {
           <Button onClick={handleDeleteCancel} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleDeleteConfirm} color="error" startIcon={<DeleteIcon />}>
+          <Button
+            onClick={handleDeleteConfirm}
+            color="error"
+            startIcon={<DeleteIcon />}
+          >
             Delete
           </Button>
         </DialogActions>

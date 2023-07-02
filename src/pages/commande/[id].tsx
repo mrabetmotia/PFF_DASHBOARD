@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useRouter } from 'next/router';
-import { Button } from '@mui/material';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/router";
+import { Button } from "@mui/material";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
 const CommandeDetailPage = () => {
   const router = useRouter();
@@ -14,7 +14,9 @@ const CommandeDetailPage = () => {
   useEffect(() => {
     const fetchCommandeDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:9000/Commandes/${id}`);
+        const response = await axios.get(
+          `http://localhost:9000/Commandes/${id}`
+        );
         setCommande(response.data);
       } catch (error) {
         console.error(error);
@@ -32,10 +34,15 @@ const CommandeDetailPage = () => {
 
   const handleVerification = async () => {
     try {
-      await axios.put(`http://localhost:9000/Commandes/${id}`, { verification: 'valide' });
-      setCommande((prevCommande) => ({ ...prevCommande, verification: 'valide' }));
+      await axios.put(`http://localhost:9000/Commandes/${id}`, {
+        verification: "valide",
+      });
+      setCommande((prevCommande) => ({
+        ...prevCommande,
+        verification: "valide",
+      }));
       toast.success('Verification status updated to "valide"');
-      router.push('/commande');
+      router.push("/commande");
     } catch (error) {
       console.error(error);
     }
@@ -47,7 +54,11 @@ const CommandeDetailPage = () => {
 
       <div className="commande-container">
         <div className="commande-info">
-          <img className="commande-image" src={commande.image_produit} alt={commande.name_produit} />
+          <img
+            className="commande-image"
+            src={commande.image_produit}
+            alt={commande.name_produit}
+          />
           <h2 className="commande-name">{commande.name_produit}</h2>
           <p className="commande-name">Name: {commande.name}</p>
           <p className="commande-email">Email: {commande.email}</p>
@@ -56,7 +67,7 @@ const CommandeDetailPage = () => {
         </div>
       </div>
 
-      {commande.verification !== 'valide' && (
+      {commande.verification !== "valide" && (
         <Button
           startIcon={<CheckCircleOutlineIcon />}
           variant="contained"

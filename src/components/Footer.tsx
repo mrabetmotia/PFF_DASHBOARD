@@ -1,8 +1,8 @@
-import React from 'react';
-import { Box, Flex, Text, Link } from '@chakra-ui/react';
-import { FaInstagram, FaFacebook, FaTwitter } from 'react-icons/fa';
-import { IoMdInformationCircleOutline } from 'react-icons/io';
-import { HiOutlineMail } from 'react-icons/hi';
+import React from "react";
+import { Box, Flex, Text, Link } from "@chakra-ui/react";
+import { FaInstagram, FaFacebook, FaTwitter } from "react-icons/fa";
+import { IoMdInformationCircleOutline } from "react-icons/io";
+import { HiOutlineMail } from "react-icons/hi";
 
 function Footer() {
   return (

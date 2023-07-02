@@ -1,23 +1,24 @@
-import React, { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
-import SaveIcon from '@mui/icons-material/Save';
-import Button from '@mui/material/Button';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import TextField from '@mui/material/TextField';
+import React, { useEffect } from "react";
+import { useRouter } from "next/router";
+import { useForm } from "react-hook-form";
+import SaveIcon from "@mui/icons-material/Save";
+import Button from "@mui/material/Button";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import axios from "axios";
+import { toast } from "react-toastify";
+import TextField from "@mui/material/TextField";
 
 const schema = z.object({
-  nom: z.string().nonempty('Nom is required'),
-  description: z.string().nonempty('Description is required'),
-  spesialite: z.string().nonempty('Spesialite is required'),
-  image: z.string().nonempty('Image is required'),
-  video: z.string().nonempty('video is required'),
-  experiance: z.string().nonempty('Experiance is required'),
-  email: z.string().email('Invalid email format'),
-  phone: z.string().nonempty('Phone is required'),
+  nom: z.string().nonempty("Nom is required"),
+  description: z.string().nonempty("Description is required"),
+  spesialite: z.string().nonempty("Spesialite is required"),
+  image: z.string().nonempty("Image is required"),
+  video: z.string().nonempty("video is required"),
+  experiance: z.string().nonempty("Experiance is required"),
+  email: z.string().email("Invalid email format"),
+  phone: z.string().nonempty("Phone is required"),
+  cv: z.string().nonempty("cv is required"),
 });
 
 export default function UpdateCoach() {
@@ -38,14 +39,15 @@ export default function UpdateCoach() {
       try {
         const response = await axios.get(`http://localhost:9000/Coachs/${id}`);
         const { data } = response;
-        setValue('nom', data.nom);
-        setValue('description', data.description);
-        setValue('spesialite', data.spesialite);
-        setValue('image', data.image);
-        setValue('video', data.video);
-        setValue('experiance', data.experiance);
-        setValue('email', data.email);
-        setValue('phone', data.phone);
+        setValue("nom", data.nom);
+        setValue("description", data.description);
+        setValue("spesialite", data.spesialite);
+        setValue("image", data.image);
+        setValue("cv", data.cv);
+        setValue("video", data.video);
+        setValue("experiance", data.experiance);
+        setValue("email", data.email);
+        setValue("phone", data.phone);
       } catch (error) {
         console.error(error);
       }
@@ -59,10 +61,10 @@ export default function UpdateCoach() {
   const handleUpdateCoach = async (data) => {
     try {
       await axios.put(`http://localhost:9000/Coachs/${id}`, data);
-      toast.success('Coach updated successfully');
-      router.push('/coach'); // Redirect to coaches page after successful update
+      toast.success("Coach updated successfully");
+      router.push("/coach"); // Redirect to coaches page after successful update
     } catch (error) {
-      toast.error('Coach update error');
+      toast.error("Coach update error");
       console.error(error);
     }
   };
@@ -77,7 +79,7 @@ export default function UpdateCoach() {
             name="nom"
             label="Nom"
             variant="outlined"
-            {...register('nom')}
+            {...register("nom")}
             error={!!errors.nom}
             helperText={errors.nom?.message}
           />
@@ -86,7 +88,7 @@ export default function UpdateCoach() {
             name="description"
             label="Description"
             variant="outlined"
-            {...register('description')}
+            {...register("description")}
             error={!!errors.description}
             helperText={errors.description?.message}
           />
@@ -95,7 +97,7 @@ export default function UpdateCoach() {
             name="spesialite"
             label="Spesialite"
             variant="outlined"
-            {...register('spesialite')}
+            {...register("spesialite")}
             error={!!errors.spesialite}
             helperText={errors.spesialite?.message}
           />
@@ -104,16 +106,25 @@ export default function UpdateCoach() {
             name="image"
             label="Image"
             variant="outlined"
-            {...register('image')}
+            {...register("image")}
             error={!!errors.image}
             helperText={errors.image?.message}
+          />
+          <TextField
+            id="cv"
+            name="cv"
+            label="cv"
+            variant="outlined"
+            {...register("cv")}
+            error={!!errors.cv}
+            helperText={errors.cv?.message}
           />
           <TextField
             id="video"
             name="video"
             label="video"
             variant="outlined"
-            {...register('video')}
+            {...register("video")}
             error={!!errors.video}
             helperText={errors.video?.message}
           />
@@ -123,7 +134,7 @@ export default function UpdateCoach() {
             label="Experiance"
             variant="outlined"
             type="Number"
-            {...register('experiance')}
+            {...register("experiance")}
             error={!!errors.experiance}
             helperText={errors.experiance?.message}
           />
@@ -132,7 +143,7 @@ export default function UpdateCoach() {
             name="email"
             label="Email"
             variant="outlined"
-            {...register('email')}
+            {...register("email")}
             error={!!errors.email}
             helperText={errors.email?.message}
           />
@@ -142,7 +153,7 @@ export default function UpdateCoach() {
             label="Phone"
             variant="outlined"
             type="Number"
-            {...register('phone')}
+            {...register("phone")}
             error={!!errors.phone}
             helperText={errors.phone?.message}
           />

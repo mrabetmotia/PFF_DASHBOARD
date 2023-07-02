@@ -1,36 +1,25 @@
-import React from 'react';
-import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
-import SaveIcon from '@mui/icons-material/Save';
-import Button from '@mui/material/Button';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
-import SendIcon from '@mui/icons-material/Send';
+import React, { useState } from "react";
+import { useRouter } from "next/router";
+import { useForm } from "react-hook-form";
+import SaveIcon from "@mui/icons-material/Save";
+import Button from "@mui/material/Button";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import axios from "axios";
+import { toast } from "react-toastify";
+import TextField from "@mui/material/TextField";
+import MenuItem from "@mui/material/MenuItem";
+import SendIcon from "@mui/icons-material/Send";
 
 const schema = z.object({
-  nom: z.string().nonempty('Name is required'),
-  type: z.string().nonempty('Type is required'),
-  lien: z.string().nonempty('Lien is required'),
+  nom: z.string().nonempty("Name is required"),
+  type: z.string().nonempty("Type is required"),
+  lien: z.any(),
 });
-
-const handleImageChange = (event) => {
-  const file = event.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      // reader.result contains the base64 string
-      setImage(reader.result);
-    };
-    reader.readAsDataURL(file);
-  }
-};
 
 export default function CreateType() {
   const router = useRouter();
+  const [file, setFile] = useState(null);
   const {
     register,
     handleSubmit,
@@ -41,11 +30,42 @@ export default function CreateType() {
 
   const handleSaveType = async (data) => {
     try {
-      await axios.post('http://localhost:9000/Add', data);
-      toast.success('Type created successfully');
-      router.push('/excercice');
+      let imageUrl = ""; // Initialize imageUrl variable
+      if (file) {
+        data.lien = file.name;
+        imageUrl = await uploadImage(); // Get URL from Cloudinary
+        data.lien = imageUrl; // Update data.lien to be the URL, not just the file name
+      }
+      await axios.post("http://localhost:9000/Add", data); // Send data to the server
+      toast.success("Type created successfully");
+      router.push("/excercice");
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    setFile(selectedFile);
+  };
+
+  const uploadImage = async () => {
+    if (file) {
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "Shop_GYM");
+        formData.append("public_id", `Shop_GYM/${file.name}`);
+
+        const response = await axios.post(
+          "https://api.cloudinary.com/v1_1/dnyt40i17/upload",
+          formData
+        );
+        console.log("File uploaded successfully");
+        return response.data.secure_url; // Correctly return the URL of the uploaded image
+      } catch (error) {
+        console.error("Error uploading file:", error);
+      }
     }
   };
 
@@ -59,7 +79,7 @@ export default function CreateType() {
             name="nom"
             label="nom"
             variant="outlined"
-            {...register('nom')}
+            {...register("nom")}
             error={!!errors.nom}
             helperText={errors.nom?.message}
           />
@@ -69,7 +89,7 @@ export default function CreateType() {
             label="Type"
             variant="outlined"
             select
-            {...register('type')}
+            {...register("type")}
             error={!!errors.type}
             helperText={errors.type?.message}
           >
@@ -81,15 +101,7 @@ export default function CreateType() {
             <MenuItem value="abdo">Abdo</MenuItem>
             <MenuItem value="cardio">Cardio</MenuItem>
           </TextField>
-          <TextField
-            id="lien"
-            name="lien"
-            label="Lien"
-            variant="outlined"
-            {...register('lien')}
-            error={!!errors.lien}
-            helperText={errors.lien?.message}
-          />
+          <input type="file" onChange={handleFileChange} />
           <Button variant="outlined" startIcon={<SendIcon />} type="submit">
             Save
           </Button>
@@ -98,6 +110,3 @@ export default function CreateType() {
     </>
   );
 }
-
-
-

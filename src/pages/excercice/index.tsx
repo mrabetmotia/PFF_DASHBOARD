@@ -1,22 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Link from 'next/link';
-import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
-import { toast } from 'react-toastify';
-import SaveIcon from '@mui/icons-material/Save';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import ADD from './add';
-import { useAuth } from '@/context/AuthContext';
-import {useRouter} from "next/router";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Link from "next/link";
+import {
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from "@mui/material";
+import { toast } from "react-toastify";
+import SaveIcon from "@mui/icons-material/Save";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import ADD from "./add";
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/router";
 
 const Table = () => {
   const [data, setData] = useState([]);
-  const [filterType, setFilterType] = useState('');
+  const [filterType, setFilterType] = useState("");
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState(null);
   const [addDialogOpen, setAddDialogOpen] = useState(false);
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useAuth();
   const router = useRouter();
 
   const handleAddClick = () => {
@@ -33,7 +39,7 @@ const Table = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://localhost:9000/excercice');
+      const response = await axios.get("http://localhost:9000/excercice");
       setData(response.data);
     } catch (error) {
       console.error(error);
@@ -42,15 +48,17 @@ const Table = () => {
 
   const deleteItem = async (itemId) => {
     try {
-      const response = await axios.delete(`http://localhost:9000/excercice/${itemId}`);
+      const response = await axios.delete(
+        `http://localhost:9000/excercice/${itemId}`
+      );
       if (response.status === 200) {
-        toast.info('Item deleted successfully');
+        toast.info("Item deleted successfully");
         fetchData(); // Refresh data after deletion
       } else {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
     } catch (error) {
-      console.error('There has been a problem with the deletion:', error);
+      console.error("There has been a problem with the deletion:", error);
     } finally {
       setDeleteDialogOpen(false);
       setSelectedItemId(null);
@@ -61,7 +69,9 @@ const Table = () => {
     setFilterType(event.target.value);
   };
 
-  const filteredData = filterType ? data.filter((item) => item.type === filterType) : data;
+  const filteredData = filterType
+    ? data.filter((item) => item.type === filterType)
+    : data;
 
   const handleDeleteClick = (itemId) => {
     setSelectedItemId(itemId);
@@ -78,7 +88,7 @@ const Table = () => {
   };
   useEffect(() => {
     if (!isLoggedIn) {
-      router.push('/');
+      router.push("/");
     }
   }, [isLoggedIn, router]);
   return (
@@ -131,14 +141,21 @@ const Table = () => {
           {filteredData.map((item) => (
             <tr key={item.id}>
               <td>
-              <img src={`/exercice/${item.lien}.gif`} alt={item.name} />
-
+                <img src={`/exercice/${item.lien}`} alt={item.name} />
               </td>
               <td>{item.nom}</td>
               <td>{item.type}</td>
-              <td >
-                <Link href="/excercice/up" as={`/excercice/${item._id}`} className='detail'>
-                  <Button variant="contained" color="primary" startIcon={<EditIcon />}>
+              <td>
+                <Link
+                  href="/excercice/up"
+                  as={`/excercice/${item._id}`}
+                  className="detail"
+                >
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    startIcon={<EditIcon />}
+                  >
                     Detail
                   </Button>
                 </Link>

@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import { toast } from 'react-toastify';
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 const TypeDetail = () => {
   const router = useRouter();
   const { id } = router.query;
   const [item, setItem] = useState(null);
-  const [updatedName, setUpdatedName] = useState('');
-  const [updatedLien, setUpdatedLien] = useState('');
-  const [updatedType, setUpdatedType] = useState('');
+  const [updatedName, setUpdatedName] = useState("");
+  const [updatedLien, setUpdatedLien] = useState("");
+  const [updatedType, setUpdatedType] = useState("");
 
   useEffect(() => {
     const fetchTypeDetails = async () => {
@@ -24,7 +24,6 @@ const TypeDetail = () => {
       }
     };
 
-    
     if (id) {
       fetchTypeDetails();
     }
@@ -33,9 +32,9 @@ const TypeDetail = () => {
   const handleUpdate = async () => {
     try {
       const response = await fetch(`http://localhost:9000/excercice/${id}`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           lien: updatedLien,
@@ -45,11 +44,11 @@ const TypeDetail = () => {
       });
       const updatedTypee = await response.json();
       setItem(updatedTypee);
-      setUpdatedName('');
-      setUpdatedLien('');
-      setUpdatedType('');
-      toast.success('Product updated successfully');
-      router.push('http://localhost:4000/excercice');
+      setUpdatedName("");
+      setUpdatedLien("");
+      setUpdatedType("");
+      toast.success("Product updated successfully");
+      router.push("http://localhost:4000/excercice");
     } catch (error) {
       console.error(error);
     }

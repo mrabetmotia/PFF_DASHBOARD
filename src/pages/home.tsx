@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useAuth } from '@/context/AuthContext';
-import { useRouter } from 'next/router';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/router";
 
 export default function Home() {
   const [coachCount, setCoachCount] = useState(0);
@@ -14,7 +14,7 @@ export default function Home() {
   const [exerciseData, setExerciseData] = useState([]);
   const [typeData, setTypeData] = useState([]);
   const [clientData, setClientData] = useState([]);
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
@@ -23,11 +23,13 @@ export default function Home() {
 
   const fetchData = async () => {
     try {
-      const coachResponse = await axios.get('http://localhost:9000/coachs');
-      const shopResponse = await axios.get('http://localhost:9000/Product');
-      const exerciseResponse = await axios.get('http://localhost:9000/excercice');
-      const typeResponse = await axios.get('http://localhost:9000/type');
-      const clientResponse = await axios.get('http://localhost:9000/clients');
+      const coachResponse = await axios.get("http://localhost:9000/coachs");
+      const shopResponse = await axios.get("http://localhost:9000/Product");
+      const exerciseResponse = await axios.get(
+        "http://localhost:9000/excercice"
+      );
+      const typeResponse = await axios.get("http://localhost:9000/type");
+      const clientResponse = await axios.get("http://localhost:9000/clients");
 
       const totalCoachCount = coachResponse.data.length;
       const totalShopCount = shopResponse.data.length;
@@ -46,14 +48,13 @@ export default function Home() {
       setExerciseData(exerciseResponse.data);
       setTypeData(typeResponse.data);
       setClientData(clientResponse.data);
-
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
     }
   };
   useEffect(() => {
     if (!isLoggedIn) {
-      router.push('/');
+      router.push("/");
     }
   }, [isLoggedIn, router]);
   return (
@@ -105,7 +106,7 @@ export default function Home() {
           <h3>Coach</h3>
           <div className="records table-responsive ">
             <div>
-              <table width="100%" className='table_home'>
+              <table width="100%" className="table_home">
                 <thead>
                   <tr>
                     <th>Nom</th>
@@ -141,7 +142,7 @@ export default function Home() {
           <h3>Product</h3>
           <div className="records table-responsive">
             <div>
-              <table width="100%" className='table_home'>
+              <table width="100%" className="table_home">
                 <thead>
                   <tr>
                     <th>Nom</th>
@@ -177,7 +178,7 @@ export default function Home() {
           <h3>Excercice</h3>
           <div className="records table-responsive">
             <div>
-              <table width="100%" className='table_home'>
+              <table width="100%" className="table_home">
                 <thead>
                   <tr>
                     <th>Nom</th>
@@ -188,10 +189,8 @@ export default function Home() {
                     <tr key={exercise._id}>
                       <td>
                         <div className="client">
-                          <div
-                            className="client-img bg-img"
-                          >
-                            <img src={`/exercice/${exercise.lien}.gif`}  />
+                          <div className="client-img bg-img">
+                            <img src={`/exercice/${exercise.lien}`} />
                           </div>
                           <div className="client-info">
                             <h4>{exercise.nom}</h4>
@@ -208,7 +207,7 @@ export default function Home() {
           <h3>Type</h3>
           <div className="records table-responsive">
             <div>
-              <table width="100%" className='table_home'>
+              <table width="100%" className="table_home">
                 <thead>
                   <tr>
                     <th>Type</th>

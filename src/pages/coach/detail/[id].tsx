@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useRouter } from 'next/router';
-import { Button } from '@mui/material';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/router";
+import { Button } from "@mui/material";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CoachDetail = () => {
   const router = useRouter();
@@ -28,10 +28,12 @@ const CoachDetail = () => {
 
   const handleVerification = async () => {
     try {
-      await axios.put(`http://localhost:9000/Coachs/${id}`, { verification: 'valide' });
-      setCoach((prevCoach) => ({ ...prevCoach, verification: 'valide' }));
+      await axios.put(`http://localhost:9000/Coachs/${id}`, {
+        verification: "valide",
+      });
+      setCoach((prevCoach) => ({ ...prevCoach, verification: "valide" }));
       toast.success('Verification status updated to "valide"');
-      router.push('/coach');
+      router.push("/coach");
     } catch (error) {
       console.error(error);
     }
@@ -49,16 +51,20 @@ const CoachDetail = () => {
         <div className="coach-container">
           <div className="coach-info">
             <img className="coach-image" src={coach.image} alt={coach.name} />
-            <h2 className="coach-name">{coach.nom}</h2>
+            <img className="coach-cv" src={coach.cv} alt={coach.name} />
+
+            <p className="coach-name">Nom :{coach.nom}</p>
             <p className="coach-email">Email: {coach.email}</p>
             <p className="coach-phone">Phone: {coach.phone}</p>
             <p className="coach-experience">Experience: {coach.experiance}</p>
-            <p className="coach-description">Description: {coach.description}</p>
+            <p className="coach-description">
+              Description: {coach.description}
+            </p>
             <p className="coach-speciality">Speciality: {coach.spesialite}</p>
           </div>
           <div className="coach-video-container">
             <video className="coach-video" autoPlay muted controls>
-              <source src="/video/coach.mp4" />
+              <source src={coach.video} />
             </video>
           </div>
         </div>
