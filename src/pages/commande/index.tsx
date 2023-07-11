@@ -14,10 +14,22 @@ import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
+interface ICommande {
+  _id: string;
+  image_produit: string;
+  name_produit: string;
+  name_user: string;
+  name: string;
+  email: string;
+  phone: string;
+  totalPrice: number;
+  verification: string;
+}
+
 const CommandeTable = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<ICommande[]>([]);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [selectedItemId, setSelectedItemId] = useState(null);
+  const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const { isLoggedIn } = useAuth();
   const router = useRouter();
 
@@ -34,7 +46,7 @@ const CommandeTable = () => {
     }
   };
 
-  const deleteCommande = async (_id) => {
+  const deleteCommande = async (_id:any) => {
     try {
       await axios.delete(`http://localhost:9000/Commandes/${_id}`);
       fetchData();
@@ -50,7 +62,7 @@ const CommandeTable = () => {
     }
   };
 
-  const handleDeleteClick = (itemId) => {
+  const handleDeleteClick = (itemId:any) => {
     setSelectedItemId(itemId);
     setDeleteDialogOpen(true);
   };
@@ -63,7 +75,7 @@ const CommandeTable = () => {
     setDeleteDialogOpen(false);
     setSelectedItemId(null);
   };
-  const getStatusColor = (verification) => {
+  const getStatusColor = (verification:any) => {
     return verification === "valide" ? "green" : "red";
   };
   useEffect(() => {

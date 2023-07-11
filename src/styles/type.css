@@ -30,3 +30,33 @@
   button:hover {
     background-color: #0056b3;
   }
+
+  .sidebar {
+    width: 200px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    background: #202020;
+    color: #fff;
+    transition: width 300ms;
+  }
+  
+  .sidebar .profile h4 {
+    margin: 10px 0;
+  }
+  
+  .sidebar .profile small {
+    color: white;
+    opacity: 10.7;
+  }
+  
+  .sidebar .side-content {
+    padding: 20px;
+  }
+  
+  .sidebar .side-content .las {
+    font-size: 18px;
+    color: #9c9c9c;
+  }
+ 

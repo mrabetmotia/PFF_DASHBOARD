@@ -33,9 +33,9 @@ export default function AddCoach() {
     resolver: zodResolver(schema),
   });
 
-  const handleImageFileChange = (e) => setImageFile(e.target.files[0]);
-  const handleCvFileChange = (e) => setCvFile(e.target.files[0]);
-  const handleVideoFileChange = (e) => {
+  const handleImageFileChange = (e:any) => setImageFile(e.target.files[0]);
+  const handleCvFileChange = (e:any) => setCvFile(e.target.files[0]);
+  const handleVideoFileChange = (e:any) => {
     const file = e.target.files[0];
     if (file.size > MAX_FILE_SIZE) {
       toast.error("Video file size is too large. Maximum size is 10MB.");
@@ -43,7 +43,7 @@ export default function AddCoach() {
     }
     setVideoFile(file);
   };
-  const uploadFile = async (file, folder) => {
+  const uploadFile = async (file: File, folder: string) => {
     try {
       const formData = new FormData();
       formData.append("file", file);
@@ -60,7 +60,7 @@ export default function AddCoach() {
     }
   };
 
-  const handleSaveCoach = async (data) => {
+  const handleSaveCoach = async (data:any) => {
     try {
       if (imageFile) {
         const imageUrl = await uploadFile(imageFile, "image");
@@ -96,65 +96,58 @@ export default function AddCoach() {
         <form onSubmit={handleSubmit(handleSaveCoach)}>
           <TextField
             id="nom"
-            name="nom"
             label="Nom"
             variant="outlined"
             {...register("nom")}
             error={!!errors.nom}
-            helperText={errors.nom?.message}
+            helperText={errors.nom?.message?.toString()}
           />
           <TextField
             id="description"
-            name="description"
             label="Description"
             variant="outlined"
             {...register("description")}
             error={!!errors.description}
-            helperText={errors.description?.message}
+            helperText={errors.description?.message?.toString()}
           />
           <TextField
             id="spesialite"
-            name="spesialite"
             label="Spesialite"
             variant="outlined"
             {...register("spesialite")}
             error={!!errors.spesialite}
-            helperText={errors.spesialite?.message}
+            helperText={errors.spesialite?.message?.toString()}
           />
 
           <TextField
             id="experiance"
-            name="experiance"
             label="Experiance"
             variant="outlined"
             type="text"
             {...register("experiance")}
             error={!!errors.experiance}
-            helperText={errors.experiance?.message}
+            helperText={errors.experiance?.message?.toString()}
           />
           <TextField
             id="email"
-            name="email"
             label="Email"
             variant="outlined"
             {...register("email")}
             error={!!errors.email}
-            helperText={errors.email?.message}
+            helperText={errors.email?.message?.toString()}
           />
           <TextField
             id="phone"
-            name="phone"
             label="Phone"
             variant="outlined"
             {...register("phone")}
             error={!!errors.phone}
-            helperText={errors.phone?.message}
+            helperText={errors.phone?.message?.toString()}
           />
           <label htmlFor="video">Select your video</label>
           <FilledInput type="file" onChange={handleVideoFileChange} />
           <label htmlFor="image">Select your image</label>
           <FilledInput
-            label="Select your image"
             type="file"
             onChange={handleImageFileChange}
           />

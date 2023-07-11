@@ -15,16 +15,34 @@ import EditIcon from "@mui/icons-material/Edit";
 import ADD from "./add";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/router";
+interface Excercice {
+  _id: string;
+  type: string;
+  nom: string;
+  name: string;
+  lien: string;
+}
 
 const Table = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<Excercice[]>([]);
   const [filterType, setFilterType] = useState("");
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState(null);
   const [addDialogOpen, setAddDialogOpen] = useState(false);
   const { isLoggedIn } = useAuth();
   const router = useRouter();
+  const [detailDialogOpen, setDetailDialogOpen] = useState(false);
+  const [selectedDetailItem, setSelectedDetailItem] = useState<Excercice | null>(null);
 
+  const handleDetailClick = (item:Excercice) => {
+    setSelectedDetailItem(item);
+    setDetailDialogOpen(true);
+  };
+
+  const handleDetailCancel = () => {
+    setDetailDialogOpen(false);
+    setSelectedDetailItem(null);
+  };
   const handleAddClick = () => {
     setAddDialogOpen(true);
   };
@@ -46,14 +64,14 @@ const Table = () => {
     }
   };
 
-  const deleteItem = async (itemId) => {
+  const deleteItem = async (itemId:any) => {
     try {
       const response = await axios.delete(
         `http://localhost:9000/excercice/${itemId}`
       );
       if (response.status === 200) {
         toast.info("Item deleted successfully");
-        fetchData(); // Refresh data after deletion
+        fetchData();
       } else {
         throw new Error("Network response was not ok");
       }
@@ -65,7 +83,10 @@ const Table = () => {
     }
   };
 
-  const handleFilterChange = (event) => {
+
+  
+
+  const handleFilterChange = (event:any) => {
     setFilterType(event.target.value);
   };
 
@@ -73,7 +94,7 @@ const Table = () => {
     ? data.filter((item) => item.type === filterType)
     : data;
 
-  const handleDeleteClick = (itemId) => {
+  const handleDeleteClick = (itemId:any) => {
     setSelectedItemId(itemId);
     setDeleteDialogOpen(true);
   };
@@ -86,11 +107,31 @@ const Table = () => {
     setDeleteDialogOpen(false);
     setSelectedItemId(null);
   };
+
+  interface EditeProps {
+    item: Excercice | null;
+  }
+  
+  const Edite: React.FC<EditeProps> = ({ item }) => {
+    if (!item) return <div>No item selected</div>;
+  
+    return (
+      <div>
+        <h2>{item.nom}</h2>
+        <p>Type: {item.type}</p>
+        <img src={`/exercice/${item.lien}`} alt={item.nom} />
+      </div>
+    );
+  };
+  
+
+  
   useEffect(() => {
     if (!isLoggedIn) {
       router.push("/");
     }
   }, [isLoggedIn, router]);
+
   return (
     <>
       <div className="filtreEx">
@@ -111,7 +152,7 @@ const Table = () => {
         startIcon={<SaveIcon />}
         variant="contained"
         color="primary"
-        className="btnadd"
+        className="btnaddEx"
         onClick={handleAddClick}
       >
         Add Excercice
@@ -127,6 +168,7 @@ const Table = () => {
           </Button>
         </DialogActions>
       </Dialog>
+     
 
       <table className="pro-table">
         <thead>
@@ -139,14 +181,14 @@ const Table = () => {
         </thead>
         <tbody>
           {filteredData.map((item) => (
-            <tr key={item.id}>
-              <td>
+            <tr key={item._id}  >
+              <td onClick={() => handleDetailClick(item)}>
                 <img src={`/exercice/${item.lien}`} alt={item.name} />
               </td>
-              <td>{item.nom}</td>
-              <td>{item.type}</td>
-              <td>
-                <Link
+              <td onClick={() => handleDetailClick(item)}>{item.nom}</td>
+              <td onClick={() => handleDetailClick(item)}>{item.type}</td>
+              <td >
+              <Link
                   href="/excercice/up"
                   as={`/excercice/${item._id}`}
                   className="detail"
@@ -156,7 +198,7 @@ const Table = () => {
                     color="primary"
                     startIcon={<EditIcon />}
                   >
-                    Detail
+                    Update
                   </Button>
                 </Link>
                 <Button
@@ -173,6 +215,18 @@ const Table = () => {
         </tbody>
       </table>
 
+
+      <Dialog open={detailDialogOpen} onClose={handleDetailCancel}>
+        <DialogContent>
+          <Edite item={selectedDetailItem} />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDetailCancel} color="primary">
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
+
       <Dialog open={deleteDialogOpen} onClose={handleDeleteCancel}>
         <DialogTitle>Delete Item</DialogTitle>
         <DialogContent>
@@ -187,6 +241,7 @@ const Table = () => {
           </Button>
         </DialogActions>
       </Dialog>
+      
     </>
   );
 };

@@ -9,18 +9,14 @@ import {
   ListItemIcon,
   ListItemText,
   Avatar,
-  Typography,
 } from "@mui/material";
 import Link from "next/link";
+import LogoutIcon from '@mui/icons-material/Logout';
 
 function Navbar() {
   const { isLoggedIn, logout } = useAuth();
   const router = useRouter();
-  const [formData, setFormData] = useState({ nom: "" });
-
-  const handleChange = (event) => {
-    setFormData({ ...formData, [event.target.name]: event.target.value });
-  };
+  const [formData, setFormData] = useState({ nom: "", email: "" });
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -60,55 +56,55 @@ function Navbar() {
                 />
 
                 <h4>
-                  {formData.nom} {formData.prenom}
+                  {formData.nom}
                 </h4>
                 <small>{formData.email}</small>
               </div>
 
               <List>
-                <ListItem button component={Link} href="/home">
+                <ListItem button component={Link} sx={menuSlideBarStyles} href="/home">
                   <ListItemIcon>
                     <span className="las la-home"></span>
                   </ListItemIcon>
                   <ListItemText primary="Home" />
                 </ListItem>
-                <ListItem button component={Link} href="/shop">
+                <ListItem button component={Link} sx={menuSlideBarStyles} href="/shop">
                   <ListItemIcon>
                     <span className="las la-store-alt"></span>
                   </ListItemIcon>
                   <ListItemText primary="Liste Shop" />
                 </ListItem>
-                <ListItem button component={Link} href="/contact">
+                <ListItem button component={Link} sx={menuSlideBarStyles} href="/contact">
                   <ListItemIcon>
-                    <span className="las la-store-alt"></span>
+                    <span className="las la-envelope"></span>
                   </ListItemIcon>
                   <ListItemText primary="Liste Contact" />
                 </ListItem>
-                <ListItem button component={Link} href="/commande">
+                <ListItem button component={Link} sx={menuSlideBarStyles} href="/commande">
                   <ListItemIcon>
-                    <span className="las la-store-alt"></span>
+                    <span className="las la-shopping-cart"></span>
                   </ListItemIcon>
                   <ListItemText primary="Liste Commande" />
                 </ListItem>
-                <ListItem button component={Link} href="/coach">
+                <ListItem button component={Link} sx={menuSlideBarStyles} href="/coach">
                   <ListItemIcon>
                     <span className="las la-user-graduate"></span>
                   </ListItemIcon>
                   <ListItemText primary="Liste Coach" />
                 </ListItem>
-                <ListItem button component={Link} href="/excercice">
+                <ListItem button component={Link} sx={menuSlideBarStyles} href="/excercice">
                   <ListItemIcon>
                     <span className="las la-clipboard-list"></span>
                   </ListItemIcon>
                   <ListItemText primary="Liste Exsercice" />
                 </ListItem>
-                <ListItem button component={Link} href="/user">
+                <ListItem button component={Link} sx={menuSlideBarStyles} href="/user">
                   <ListItemIcon>
                     <span className="las la-user"></span>
                   </ListItemIcon>
                   <ListItemText primary="Liste User" />
                 </ListItem>
-                <ListItem button component={Link} href="/type">
+                <ListItem button component={Link} sx={menuSlideBarStyles} href="/type">
                   <ListItemIcon>
                     <span className="las la-tasks"></span>
                   </ListItemIcon>
@@ -120,8 +116,8 @@ function Navbar() {
           <div className="main-content">
             <header>
               <div className="header-content">
-                <label htmlFor="menu-toggle">
-                  <span className="las la-bars"></span>
+                <label htmlFor="menu-toggle" >
+                  <span className="las la-bars" ></span>
                 </label>
                 <div className="header-menu">
                   <div style={{ border: "1", borderRadius: "1" }}>
@@ -131,7 +127,7 @@ function Navbar() {
                       }}
                       sx={menuItemStyles}
                     >
-                      <span className="las la-power-off"></span>
+                      <LogoutIcon />
                       Logout
                     </MenuItem>
                   </div>
@@ -141,17 +137,8 @@ function Navbar() {
           </div>
         </>
       ) : (
-        <div className="main-content">
-          <header>
-            <div className="header-content">
-              <div className="header-menu">
-                <div className="user">
-                  <span className="las la-power-off"></span>
-                </div>
-              </div>
-            </div>
-          </header>
-        </div>
+        <>
+        </>
       )}
     </>
   );
@@ -165,4 +152,14 @@ const menuItemStyles = {
     transform: "scale(1.1)",
   },
 };
+
+const menuSlideBarStyles = {
+  fontSize: "14px",
+  fontWeight: 600,
+  "&:hover": {
+    color: "#05b1f0",
+    transform: "scale(1.1)",
+  },
+};
+
 export default Navbar;

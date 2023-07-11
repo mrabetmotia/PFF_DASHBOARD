@@ -15,10 +15,17 @@ import EditIcon from "@mui/icons-material/Edit";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/router";
 
+interface Contact {
+  _id: string;
+  name: string;
+  email: string;
+  message: string;
+}
+
 const Table = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<Contact[]>([]);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [selectedItemId, setSelectedItemId] = useState(null);
+  const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const { isLoggedIn } = useAuth();
   const router = useRouter();
 
@@ -35,7 +42,7 @@ const Table = () => {
     }
   };
 
-  const deleteContact = async (_id) => {
+  const deleteContact = async (_id:any) => {
     try {
       await axios.delete(`http://localhost:9000/contact/${_id}`);
       fetchData();
@@ -51,7 +58,7 @@ const Table = () => {
     }
   };
 
-  const handleDeleteClick = (itemId) => {
+  const handleDeleteClick = (itemId:any) => {
     setSelectedItemId(itemId);
     setDeleteDialogOpen(true);
   };

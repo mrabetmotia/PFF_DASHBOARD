@@ -18,12 +18,12 @@ import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/router";
 
 const TableCoach = () => {
-  const [data, setData] = useState([]);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedCoachId, setSelectedCoachId] = useState(null);
   const [addDialogOpen, setAddDialogOpen] = useState(false);
   const { isLoggedIn } = useAuth();
   const router = useRouter();
+  const [data, setData] = useState<any[]>([]);
 
   const handleAddClick = () => {
     setAddDialogOpen(true);
@@ -46,12 +46,12 @@ const TableCoach = () => {
     }
   };
 
-  const handleDeleteClick = (coachId) => {
+  const handleDeleteClick = (coachId:any) => {
     setSelectedCoachId(coachId);
     setDeleteDialogOpen(true);
   };
 
-  const handleViewClick = (coachId) => {
+  const handleViewClick = (coachId:any) => {
     router.push(`/coach/detail/${coachId}`);
   };
 
@@ -79,7 +79,7 @@ const TableCoach = () => {
     setSelectedCoachId(null);
   };
 
-  const getStatusColor = (verification) => {
+  const getStatusColor = (verification:any) => {
     return verification === "valide" ? "green" : "red";
   };
   useEffect(() => {
@@ -153,19 +153,7 @@ const TableCoach = () => {
                 >
                   View
                 </Button>
-                <Link
-                  href="/coach/up"
-                  as={`/coach/${item._id}`}
-                  className="detail"
-                >
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    startIcon={<EditIcon />}
-                  >
-                    Detail
-                  </Button>
-                </Link>
+
                 <Button
                   variant="contained"
                   color="secondary"

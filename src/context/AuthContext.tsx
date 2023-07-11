@@ -18,7 +18,7 @@ const AuthContext = createContext<AuthContextType>({
 
 export const useAuth = () => useContext(AuthContext);
 
-export const AuthProvider: React.FC = ({ children }) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [token, settoken] = useState<string | null>(null);
 
@@ -57,7 +57,6 @@ export const AuthProvider: React.FC = ({ children }) => {
   };
 
   const logout = () => {
-    handleRefresh();
     settoken(null);
     setIsLoggedIn(false);
     localStorage.removeItem("token");

@@ -1,5 +1,5 @@
 table {
-    margin-left: 12%;
+    margin-left: 14%;
     margin-top: 3%;
     width: 100%;
     border-collapse: collapse;
@@ -12,12 +12,13 @@ table {
     border-collapse: collapse;
   }
   .filtreEx{
-    margin-left: 12%;
+    margin-left: 36%;
+    margin-right: 36%;
     margin-top: 10%;
   }
   .btnadd {
-    margin-left: 12%;
-    margin-top: 2%;
+    margin-left: 19%;
+    margin-top: 12%;
 }
   .btnaddcoach{
     margin-left: 14%;
@@ -123,3 +124,38 @@ table {
   .pro-table button.delete:hover {
     background-color: #d32f2f;
   }
+
+  .type-detail-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    gap: 20px;
+  }
+
+  .type-detail {
+    flex-basis: 50%;
+    border-radius: 70px !important;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .Box-img {
+    margin-top: 8%;
+    margin-left: 3%;
+    width: 500px;
+    height: 500px;
+    border-radius: 40px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+
+  .descShop{
+    margin-left: 5%;
+  }
+
+  .shops{
+    border-radius: 71px;
+}

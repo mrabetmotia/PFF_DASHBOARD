@@ -15,9 +15,14 @@ import EditIcon from "@mui/icons-material/Edit";
 import ADD from "./add";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/router";
+interface ItemType {
+  _id: string;
+  name: string;
+  // add other properties as needed
+}
 
 const Table = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<ItemType[]>([]);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState(null);
   const [addDialogOpen, setAddDialogOpen] = useState(false);
@@ -45,7 +50,7 @@ const Table = () => {
     }
   };
 
-  const deleteProduct = async (_id) => {
+  const deleteProduct = async (_id:any) => {
     try {
       await axios.delete(`http://localhost:9000/types/${_id}`);
       fetchData();
@@ -61,7 +66,7 @@ const Table = () => {
     }
   };
 
-  const handleDeleteClick = (itemId) => {
+  const handleDeleteClick = (itemId:any) => {
     setSelectedItemId(itemId);
     setDeleteDialogOpen(true);
   };
@@ -81,7 +86,16 @@ const Table = () => {
   }, [isLoggedIn, router]);
   return (
     <>
-      <table className="pro-table pro-tablee">
+      <Button
+        startIcon={<SaveIcon />}
+        variant="contained"
+        color="primary"
+        className="btnadd"
+        onClick={handleAddClick}
+      >
+        Add Type
+      </Button>
+      <table className="pro-table ">
         <thead>
           <tr>
             <th>Name</th>
@@ -119,16 +133,6 @@ const Table = () => {
           ))}
         </tbody>
       </table>
-
-      <Button
-        startIcon={<SaveIcon />}
-        variant="contained"
-        color="primary"
-        className="btnadd"
-        onClick={handleAddClick}
-      >
-        Add Type
-      </Button>
 
       <Dialog open={addDialogOpen} onClose={handleAddCancel}>
         <DialogContent>

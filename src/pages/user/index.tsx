@@ -15,16 +15,26 @@ import EditIcon from "@mui/icons-material/Edit";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/router";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+interface User {
+  _id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  address: string;
+  role: string;
+  // add other properties as needed
+}
 
 const Table = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<User[]>([]);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState(null);
   const [searchEmail, setSearchEmail] = useState("");
   const [searchRole, setSearchRole] = useState("");
   const { isLoggedIn } = useAuth();
   const router = useRouter();
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     fetchData();
@@ -39,7 +49,7 @@ const Table = () => {
     }
   };
 
-  const deleteUser = async (_id) => {
+  const deleteUser = async (_id:any) => {
     try {
       await axios.delete(`http://localhost:9000/client/${_id}`);
       fetchData();
@@ -55,13 +65,13 @@ const Table = () => {
     }
   };
 
-  const handleVerification = async (id) => {
+  const handleVerification = async (id:any) => {
     try {
       await axios.put(`http://localhost:9000/clients/${id}`, { role: "admin" });
       const updatedUser = data.find((item) => item._id === id);
       if (updatedUser) {
         setUser(updatedUser);
-        toast.success('Verification status updated to "valide"');
+        toast.success('Verification status updated to "Admin"');
       }
       router.push("/user");
     } catch (error) {
@@ -69,7 +79,7 @@ const Table = () => {
     }
   };
 
-  const handleDeleteClick = (itemId) => {
+  const handleDeleteClick = (itemId:any) => {
     setSelectedItemId(itemId);
     setDeleteDialogOpen(true);
   };
@@ -83,11 +93,11 @@ const Table = () => {
     setSelectedItemId(null);
   };
 
-  const handleSearchEmailChange = (event) => {
+  const handleSearchEmailChange = (event:any) => {
     setSearchEmail(event.target.value);
   };
 
-  const handleSearchRoleChange = (event) => {
+  const handleSearchRoleChange = (event:any) => {
     setSearchRole(event.target.value);
   };
 

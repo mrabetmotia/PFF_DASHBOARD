@@ -19,7 +19,7 @@ const schema = z.object({
 
 export default function CreateType() {
   const router = useRouter();
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState<File | null>(null);
   const {
     register,
     handleSubmit,
@@ -28,7 +28,7 @@ export default function CreateType() {
     resolver: zodResolver(schema),
   });
 
-  const handleSaveType = async (data) => {
+  const handleSaveType = async (data:any) => {
     try {
       let imageUrl = ""; // Initialize imageUrl variable
       if (file) {
@@ -44,7 +44,7 @@ export default function CreateType() {
     }
   };
 
-  const handleFileChange = (e) => {
+  const handleFileChange = (e:any) => {
     const selectedFile = e.target.files[0];
     setFile(selectedFile);
   };
@@ -54,8 +54,8 @@ export default function CreateType() {
       try {
         const formData = new FormData();
         formData.append("file", file);
-        formData.append("upload_preset", "Shop_GYM");
-        formData.append("public_id", `Shop_GYM/${file.name}`);
+        formData.append("upload_preset", "Excercice");
+        formData.append("public_id", `Excercice/${file.name}`);
 
         const response = await axios.post(
           "https://api.cloudinary.com/v1_1/dnyt40i17/upload",
@@ -76,22 +76,20 @@ export default function CreateType() {
         <form onSubmit={handleSubmit(handleSaveType)}>
           <TextField
             id="nom"
-            name="nom"
             label="nom"
             variant="outlined"
             {...register("nom")}
             error={!!errors.nom}
-            helperText={errors.nom?.message}
+            helperText={errors.nom?.message?.toString()}
           />
           <TextField
             id="type"
-            name="type"
             label="Type"
             variant="outlined"
             select
             {...register("type")}
             error={!!errors.type}
-            helperText={errors.type?.message}
+            helperText={errors.type?.message?.toString()}
           >
             <MenuItem value="chest">Chest</MenuItem>
             <MenuItem value="back">Back</MenuItem>

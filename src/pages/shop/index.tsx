@@ -9,7 +9,24 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel
 } from "@mui/material";
+
+interface Shop {
+  _id: string;
+  type: string | { name: string };
+  nom: string;
+  name: string;
+  lien: string;
+  description: string;
+  price: string;
+  kg: string;
+  image: string;
+}
+
 
 import SaveIcon from "@mui/icons-material/Save";
 import AddIcon from "@mui/icons-material/Add";
@@ -20,12 +37,26 @@ import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/router";
 
 const Table = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<Shop[]>([]);
+  const [types, setTypes] = useState([]);
+  const [typeFilter, setTypeFilter] = useState("");
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState(null);
   const [addDialogOpen, setAddDialogOpen] = useState(false);
   const { isLoggedIn } = useAuth();
   const router = useRouter();
+  const [detailDialogOpen, setDetailDialogOpen] = useState(false);
+  const [selectedDetailItem, setSelectedDetailItem] = useState<Shop | null>(null);
+
+  const handleDetailClick = (item:Shop) => {
+    setSelectedDetailItem(item);
+    setDetailDialogOpen(true);
+  };
+
+  const handleDetailCancel = () => {
+    setDetailDialogOpen(false);
+    setSelectedDetailItem(null);
+  };
 
   const handleAddClick = () => {
     setAddDialogOpen(true);
@@ -37,6 +68,7 @@ const Table = () => {
 
   useEffect(() => {
     fetchData();
+    fetchTypes();
   }, []);
 
   const fetchData = async () => {
@@ -48,7 +80,16 @@ const Table = () => {
     }
   };
 
-  const deleteProduct = async (_id) => {
+  const fetchTypes = async () => {
+    try {
+      const response = await axios.get("http://localhost:9000/type");
+      setTypes(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const deleteProduct = async (_id:any) => {
     try {
       await axios.delete(`http://localhost:9000/Products/${_id}`);
       fetchData();
@@ -64,7 +105,7 @@ const Table = () => {
     }
   };
 
-  const handleDeleteClick = (itemId) => {
+  const handleDeleteClick = (itemId:any) => {
     setSelectedItemId(itemId);
     setDeleteDialogOpen(true);
   };
@@ -77,13 +118,39 @@ const Table = () => {
     setDeleteDialogOpen(false);
     setSelectedItemId(null);
   };
+
+  const handleTypeChange = (event:any) => {
+    setTypeFilter(event.target.value);
+  };
+
   useEffect(() => {
     if (!isLoggedIn) {
       router.push("/");
     }
   }, [isLoggedIn, router]);
+
+  interface EditeProps {
+    item: Shop | null;
+  }
+
+  const Edite: React.FC<EditeProps> = ({ item }) => {
+    if (!item) return <div>No item selected</div>;
+  
+    return (
+      <div>
+        <h2>{item.name}</h2>
+        <p>Price : {item.price} DT</p>
+        <img src={item.image}  alt={item.nom} />
+      </div>
+    );
+  };
+
+  const filteredData = typeFilter
+    ? data.filter(item => item.type?.name === typeFilter)
+    : data;
+
   return (
-    <>
+    < center>
       <Dialog open={addDialogOpen} onClose={handleAddCancel}>
         <DialogContent>
           <ADD />
@@ -95,6 +162,8 @@ const Table = () => {
         </DialogActions>
       </Dialog>
 
+
+
       <Button
         startIcon={<AddIcon />}
         variant="contained"
@@ -104,6 +173,22 @@ const Table = () => {
       >
         Add Product
       </Button>
+      <FormControl variant="outlined" className="filterProduct">
+        <InputLabel id="type-filter-label">Type</InputLabel>
+        <Select
+          labelId="type-filter-label"
+          value={typeFilter}
+          onChange={handleTypeChange}
+          label="Type"
+        >
+          <MenuItem value="">
+            <em>All Product</em>
+          </MenuItem>
+          {types.map((type) => (
+            <MenuItem key={type._id} value={type.name}>{type.name}</MenuItem>
+          ))}
+        </Select>
+      </FormControl>
       <Button
         startIcon={<Dns />}
         variant="contained"
@@ -126,18 +211,19 @@ const Table = () => {
           </tr>
         </thead>
         <tbody>
-          {data.map((item) => (
+          {filteredData.map((item) => (
             <tr key={item._id}>
-              <td>{item.name}</td>
-              <td>
+              <td onClick={() => handleDetailClick(item)}>{item.name}</td>
+              <td onClick={() => handleDetailClick(item)}>
                 <img src={item.image} alt={item.image} />
               </td>
-              <td>{item.kg}</td>
-              <td>{item.price}</td>
-              <td>{item.type ? item.type.name : "N/A"}</td>
+              <td onClick={() => handleDetailClick(item)}>{item.kg}</td>
+              <td onClick={() => handleDetailClick(item)}>{item.price}</td>
+              <td onClick={() => handleDetailClick(item)}>{typeof item.type === 'string' ? item.type : item.type.name}</td>
 
-              <td>{item.description}</td>
-              <td>
+
+              <td onClick={() => handleDetailClick(item)}>{item.description}</td>
+              <td >
                 <Link
                   href="/shop/up"
                   as={`/shop/${item._id}`}
@@ -165,6 +251,18 @@ const Table = () => {
         </tbody>
       </table>
 
+
+      <Dialog open={detailDialogOpen} onClose={handleDetailCancel}>
+        <DialogContent>
+          <Edite item={selectedDetailItem} />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDetailCancel} color="primary">
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
+      
       <Dialog open={deleteDialogOpen} onClose={handleDeleteCancel}>
         <DialogTitle>Delete Product</DialogTitle>
         <DialogContent>
@@ -179,7 +277,7 @@ const Table = () => {
           </Button>
         </DialogActions>
       </Dialog>
-    </>
+    </ center>
   );
 };
 

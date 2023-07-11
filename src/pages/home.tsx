@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/router";
-
+import Link from "next/link";
+import {Button} from "@mui/material";
 export default function Home() {
   const [coachCount, setCoachCount] = useState(0);
   const [shopCount, setShopCount] = useState(0);
@@ -52,6 +53,7 @@ export default function Home() {
       console.error("Error fetching data:", error);
     }
   };
+
   useEffect(() => {
     if (!isLoggedIn) {
       router.push("/");
@@ -138,6 +140,19 @@ export default function Home() {
                 </tbody>
               </table>
             </div>
+            <Link
+              href="/coach"
+            >
+              <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                fullWidth={"true"}
+                className="BTN-More"
+              >
+                View More
+              </Button>
+            </Link>
           </div>
           <h3>Product</h3>
           <div className="records table-responsive">
@@ -174,6 +189,19 @@ export default function Home() {
                 </tbody>
               </table>
             </div>
+            <Link
+              href="/shop"
+            >
+              <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                fullWidth={"true"}
+                className="BTN-More"
+              >
+                View More
+              </Button>
+            </Link>
           </div>
           <h3>Excercice</h3>
           <div className="records table-responsive">
@@ -203,6 +231,19 @@ export default function Home() {
                 </tbody>
               </table>
             </div>
+            <Link
+              href="/excercice"
+            >
+              <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                fullWidth={"true"}
+                className="BTN-More"
+              >
+                View More
+              </Button>
+            </Link>
           </div>
           <h3>Type</h3>
           <div className="records table-responsive">
@@ -228,9 +269,23 @@ export default function Home() {
                 </tbody>
               </table>
             </div>
+            <Link
+              href="/type"
+            >
+              <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                fullWidth={"true"}
+                className="BTN-More"
+              >
+                View More
+              </Button>
+            </Link>
           </div>
         </div>
       </main>
+      
     </>
   );
 }

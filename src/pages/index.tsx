@@ -20,7 +20,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({ email: "", password: "" });
 
-  const resetForm = (event) => {
+  const resetForm = (event:any) => {
     event.preventDefault();
     setEmail("");
     setPassword("");

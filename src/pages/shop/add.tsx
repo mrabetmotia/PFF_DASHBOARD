@@ -90,7 +90,7 @@ export default function CreateType() {
     }
   };
 
-  const handleFileChange = (e) => {
+  const handleFileChange = (e:any) => {
     const selectedFile = e.target.files[0];
     setFile(selectedFile);
   };
@@ -126,7 +126,7 @@ export default function CreateType() {
             variant="outlined"
             onChange={(event) => setName(event.target.value)}
             error={!!errors.name}
-            helperText={errors.name?.message}
+            helperText={errors.name?.message?.toString()}
           />
           <input type="file" onChange={handleFileChange} />
 
@@ -137,7 +137,7 @@ export default function CreateType() {
             variant="outlined"
             onChange={(event) => setKG(event.target.value)}
             error={!!errors.kg}
-            helperText={errors.kg?.message}
+            helperText={errors.kg?.message?.toString()}
           />
           <TextField
             id="price"
@@ -146,7 +146,7 @@ export default function CreateType() {
             variant="outlined"
             onChange={(event) => setPrice(event.target.value)}
             error={!!errors.price}
-            helperText={errors.price?.message}
+            helperText={errors.price?.message?.toString()}
           />
           <TextField
             id="description"
@@ -155,7 +155,7 @@ export default function CreateType() {
             variant="outlined"
             onChange={(event) => setDescription(event.target.value)}
             error={!!errors.description}
-            helperText={errors.description?.message}
+            helperText={errors.description?.message?.toString()}
           />
 
           <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
