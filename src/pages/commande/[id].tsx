@@ -5,6 +5,8 @@ import { Button } from "@mui/material";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import Head from "next/head";
+
 interface CommandeData {
   name: string;
   email: string;
@@ -46,7 +48,7 @@ const CommandeDetailPage = () => {
       await axios.put(`http://localhost:9000/Commandes/${id}`, {
         verification: "valide",
       });
-      
+
       setCommande((prevCommande) => {
         if (prevCommande) {
           return {
@@ -56,46 +58,48 @@ const CommandeDetailPage = () => {
         }
         return null;
       });
-  
+
       toast.success('Verification status updated to "valide"');
       router.push("/commande");
     } catch (error) {
       console.error(error);
     }
   };
-  
 
   return (
-      <center className="commande">
-        <div className="commande-detail">
-      <h1 className="commande-detail-title">Commande Detail</h1>
+    <center className="commande">
+      <Head>
+        <title>commanede detail</title>
+      </Head>
+      <div className="commande-detail">
+        <h1 className="commande-detail-title">Commande Detail</h1>
 
-      <div className="commande-container">
-        <div className="commande-info">
-          <img
-            className="commande-image"
-            src={commande.image_produit}
-            alt={commande.name_produit}
-          />
-          <h2 className="commande-name">{commande.name_produit}</h2>
-          <p className="commande-name">Name: {commande.name}</p>
-          <p className="commande-email">Email: {commande.email}</p>
-          <p className="commande-phone">Phone: {commande.phone}</p>
+        <div className="commande-container">
+          <div className="commande-info">
+            <img
+              className="commande-image"
+              src={commande.image_produit}
+              alt={commande.name_produit}
+            />
+            <h2 className="commande-name">{commande.name_produit}</h2>
+            <p className="commande-name">Name: {commande.name}</p>
+            <p className="commande-email">Email: {commande.email}</p>
+            <p className="commande-phone">Phone: {commande.phone}</p>
+          </div>
         </div>
-      </div>
 
-      {commande.verification !== "valide" && (
-        <Button
-          startIcon={<CheckCircleOutlineIcon />}
-          variant="contained"
-          color="primary"
-          onClick={handleVerification}
-        >
-          Valider
-        </Button>
-      )}
+        {commande.verification !== "valide" && (
+          <Button
+            startIcon={<CheckCircleOutlineIcon />}
+            variant="contained"
+            color="primary"
+            onClick={handleVerification}
+          >
+            Valider
+          </Button>
+        )}
 
-      <ToastContainer />
+        <ToastContainer />
       </div>
       <style jsx>{`
         .commande {
@@ -107,7 +111,7 @@ const CommandeDetailPage = () => {
           
         }
       `}</style>
-      </center>
+    </center>
   );
 };
 

@@ -4,6 +4,8 @@ import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import {Button} from "@mui/material";
+import Head from "next/head";
+
 export default function Home() {
   const [coachCount, setCoachCount] = useState(0);
   const [shopCount, setShopCount] = useState(0);
@@ -26,9 +28,7 @@ export default function Home() {
     try {
       const coachResponse = await axios.get("http://localhost:9000/coachs");
       const shopResponse = await axios.get("http://localhost:9000/Product");
-      const exerciseResponse = await axios.get(
-        "http://localhost:9000/excercice"
-      );
+      const exerciseResponse = await axios.get("http://localhost:9000/excercice");
       const typeResponse = await axios.get("http://localhost:9000/type");
       const clientResponse = await axios.get("http://localhost:9000/clients");
 
@@ -61,6 +61,9 @@ export default function Home() {
   }, [isLoggedIn, router]);
   return (
     <>
+      <Head>
+        <title>Home</title>
+      </Head>
       <main>
         <div className="page-header">
           <h1>Dashboard</h1>
@@ -167,7 +170,7 @@ export default function Home() {
                   </tr>
                 </thead>
                 <tbody>
-                  {productData.slice(0, 6).map((product) => (
+                  {productData.slice(0, 6).map((product) => ( 
                     <tr key={product._id}>
                       <td>
                         <div className="client">

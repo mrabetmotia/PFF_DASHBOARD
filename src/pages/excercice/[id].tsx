@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import Image from "next/image";// <-- Import here
 import axios from "axios";
+import Head from "next/head";
 
 interface Excercice {
   _id: string;
@@ -106,6 +107,9 @@ const TypeDetail = () => {
 
   return (
     <center className="center">
+      <Head>
+        <title>Exercice detail</title>
+      </Head>
       <div className="type-detail-container" style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
         <div className="type-detail">
           <h1>Type Detail</h1>

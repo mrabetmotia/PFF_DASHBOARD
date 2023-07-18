@@ -8,6 +8,7 @@ import { z } from "zod";
 import axios from "axios";
 import { toast } from "react-toastify";
 import TextField from "@mui/material/TextField";
+import Head from "next/head";
 
 const schema = z.object({
   nom: z.string().nonempty("Nom is required"),
@@ -70,90 +71,93 @@ export default function UpdateCoach() {
   };
 
   return (
-<>
-  <main>
-    <form className="form-coach" onSubmit={handleSubmit(handleUpdateCoach)}>
-      <h1>Update Coach</h1>
-      <label htmlFor="nom">Nom</label>
-      <TextField
-        id="nom"
-        variant="outlined"
-        {...register("nom")}
-        error={!!errors.nom}
-        helperText={errors.nom?.message?.toString()}
-      />
-      <label htmlFor="description">Description</label>
-      <TextField
-        id="description"
-        variant="outlined"
-        {...register("description")}
-        error={!!errors.description}
-        helperText={errors.description?.message?.toString()}
-      />
-      <label htmlFor="spesialite">Spesialite</label>
-      <TextField
-        id="spesialite"
-        variant="outlined"
-        {...register("spesialite")}
-        error={!!errors.spesialite}
-        helperText={errors.spesialite?.message?.toString()}
-      />
-      <label htmlFor="image">Image</label>
-      <TextField
-        id="image"
-        variant="outlined"
-        {...register("image")}
-        error={!!errors.image}
-        helperText={errors.image?.message?.toString()}
-      />
-      <label htmlFor="cv">CV</label>
-      <TextField
-        id="cv"
-        variant="outlined"
-        {...register("cv")}
-        error={!!errors.cv}
-        helperText={errors.cv?.message?.toString()}
-      />
-      <label htmlFor="video">Video</label>
-      <TextField
-        id="video"
-        variant="outlined"
-        {...register("video")}
-        error={!!errors.video}
-        helperText={errors.video?.message?.toString()}
-      />
-      <label htmlFor="experiance">Experiance</label>
-      <TextField
-        id="experiance"
-        variant="outlined"
-        type="number"
-        {...register("experiance")}
-        error={!!errors.experiance}
-        helperText={errors.experiance?.message?.toString()}
-      />
-      <label htmlFor="email">Email</label>
-      <TextField
-        id="email"
-        variant="outlined"
-        {...register("email")}
-        error={!!errors.email}
-        helperText={errors.email?.message?.toString()}
-      />
-      <label htmlFor="phone">Phone</label>
-      <TextField
-        id="phone"
-        variant="outlined"
-        type="number"
-        {...register("phone")}
-        error={!!errors.phone}
-        helperText={errors.phone?.message?.toString()}
-      />
-      <Button variant="outlined" startIcon={<SaveIcon />} type="submit">
-        Save
-      </Button>
-    </form>
-  </main>
-</>
+    <>
+      <Head>
+        <title>Coach detail</title>
+      </Head>
+      <main>
+        <form className="form-coach" onSubmit={handleSubmit(handleUpdateCoach)}>
+          <h1>Update Coach</h1>
+          <label htmlFor="nom">Nom</label>
+          <TextField
+            id="nom"
+            variant="outlined"
+            {...register("nom")}
+            error={!!errors.nom}
+            helperText={errors.nom?.message?.toString()}
+          />
+          <label htmlFor="description">Description</label>
+          <TextField
+            id="description"
+            variant="outlined"
+            {...register("description")}
+            error={!!errors.description}
+            helperText={errors.description?.message?.toString()}
+          />
+          <label htmlFor="spesialite">Spesialite</label>
+          <TextField
+            id="spesialite"
+            variant="outlined"
+            {...register("spesialite")}
+            error={!!errors.spesialite}
+            helperText={errors.spesialite?.message?.toString()}
+          />
+          <label htmlFor="image">Image</label>
+          <TextField
+            id="image"
+            variant="outlined"
+            {...register("image")}
+            error={!!errors.image}
+            helperText={errors.image?.message?.toString()}
+          />
+          <label htmlFor="cv">CV</label>
+          <TextField
+            id="cv"
+            variant="outlined"
+            {...register("cv")}
+            error={!!errors.cv}
+            helperText={errors.cv?.message?.toString()}
+          />
+          <label htmlFor="video">Video</label>
+          <TextField
+            id="video"
+            variant="outlined"
+            {...register("video")}
+            error={!!errors.video}
+            helperText={errors.video?.message?.toString()}
+          />
+          <label htmlFor="experiance">Experiance</label>
+          <TextField
+            id="experiance"
+            variant="outlined"
+            type="number"
+            {...register("experiance")}
+            error={!!errors.experiance}
+            helperText={errors.experiance?.message?.toString()}
+          />
+          <label htmlFor="email">Email</label>
+          <TextField
+            id="email"
+            variant="outlined"
+            {...register("email")}
+            error={!!errors.email}
+            helperText={errors.email?.message?.toString()}
+          />
+          <label htmlFor="phone">Phone</label>
+          <TextField
+            id="phone"
+            variant="outlined"
+            type="number"
+            {...register("phone")}
+            error={!!errors.phone}
+            helperText={errors.phone?.message?.toString()}
+          />
+          <Button variant="outlined" startIcon={<SaveIcon />} type="submit">
+            Save
+          </Button>
+        </form>
+      </main>
+    </>
 
   );
 }

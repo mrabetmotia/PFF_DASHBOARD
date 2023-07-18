@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import Image from "next/image";
 import axios from "axios";
+import Head from "next/head";
 
 const TypeDetail = () => {
   const router = useRouter();
@@ -119,6 +120,9 @@ const TypeDetail = () => {
   };
   return (
     <center className="center">
+      <Head>
+        <title>Product detail</title>
+      </Head>
       <div className="type-detail-container" style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
         <div className="type-detail">
         <h1>Type Detail</h1>

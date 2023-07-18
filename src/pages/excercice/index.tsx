@@ -15,6 +15,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import ADD from "./add";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/router";
+import Head from "next/head";
+
 interface Excercice {
   _id: string;
   type: string;
@@ -134,6 +136,9 @@ const Table = () => {
 
   return (
     <>
+      <Head>
+        <title>Liste d'exercice</title>
+      </Head>
       <div className="filtreEx">
         <label htmlFor="filter">Filter by Type:</label>
         <select id="filter" value={filterType} onChange={handleFilterChange}>

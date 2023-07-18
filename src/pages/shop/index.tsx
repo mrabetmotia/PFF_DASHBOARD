@@ -14,6 +14,14 @@ import {
   FormControl,
   InputLabel
 } from "@mui/material";
+import Head from "next/head";
+import SaveIcon from "@mui/icons-material/Save";
+import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Dns from "@mui/icons-material/Dns";
+import ADD from "./add";
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/router";
 
 interface Shop {
   _id: string;
@@ -26,16 +34,6 @@ interface Shop {
   kg: string;
   image: string;
 }
-
-
-import SaveIcon from "@mui/icons-material/Save";
-import AddIcon from "@mui/icons-material/Add";
-import DeleteIcon from "@mui/icons-material/Delete";
-import Dns from "@mui/icons-material/Dns";
-import ADD from "./add";
-import { useAuth } from "@/context/AuthContext";
-import { useRouter } from "next/router";
-
 const Table = () => {
   const [data, setData] = useState<Shop[]>([]);
   const [types, setTypes] = useState([]);
@@ -151,6 +149,9 @@ const Table = () => {
 
   return (
     < center>
+      <Head>
+        <title>Liste de produit</title>
+      </Head>
       <Dialog open={addDialogOpen} onClose={handleAddCancel}>
         <DialogContent>
           <ADD />

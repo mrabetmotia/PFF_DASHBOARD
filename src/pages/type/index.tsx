@@ -15,6 +15,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import ADD from "./add";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/router";
+import Head from "next/head";
+
 interface ItemType {
   _id: string;
   name: string;
@@ -86,6 +88,9 @@ const Table = () => {
   }, [isLoggedIn, router]);
   return (
     <>
+      <Head>
+        <title>Liste de type</title>
+      </Head>
       <Button
         startIcon={<SaveIcon />}
         variant="contained"

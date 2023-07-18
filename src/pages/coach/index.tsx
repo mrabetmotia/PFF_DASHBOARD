@@ -16,6 +16,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import ADD from "./add";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 const TableCoach = () => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -24,6 +25,8 @@ const TableCoach = () => {
   const { isLoggedIn } = useAuth();
   const router = useRouter();
   const [data, setData] = useState<any[]>([]);
+  const [searchEmail, setSearchEmail] = useState("");
+  const [searchVerification, setSearchVerification] = useState("");
 
   const handleAddClick = () => {
     setAddDialogOpen(true);
@@ -82,23 +85,65 @@ const TableCoach = () => {
   const getStatusColor = (verification:any) => {
     return verification === "valide" ? "green" : "red";
   };
+  
+  const handleSearchEmailChange = (event:any) => {
+    setSearchEmail(event.target.value);
+  };
+
+  const handleSearchVerificationChange = (event:any) => {
+    setSearchVerification(event.target.value);
+  };
+  
+  const filteredData = data.filter(
+    (item) =>
+      item.email.toLowerCase().includes(searchEmail.toLowerCase()) &&
+      item.verification.toLowerCase().includes(searchVerification.toLowerCase())
+  );
+  
   useEffect(() => {
     if (!isLoggedIn) {
       router.push("/");
     }
   }, [isLoggedIn, router]);
+
   return (
     <>
-      <Button
-        startIcon={<SaveIcon />}
-        variant="contained"
-        color="primary"
-        className="btnaddcoach"
-        onClick={handleAddClick}
-      >
-        Add Coach
-      </Button>
+      <Head>
+        <title>Liste de coach</title>
+      </Head>
+      <div style={{ display: "flex", justifyContent: "flex-start", alignItems: "center", margin:"10% 0 0 20%" }}>
+        <Button
+          startIcon={<SaveIcon />}
+          variant="contained"
+          color="primary"
+          className="btnaddcoach"
+          onClick={handleAddClick}
+          style={{ margin: "10px" }}
+        >
+          Add Coach
+        </Button>
 
+        <div style={{  alignItems: "center" }}>
+          <input
+            className="searchAdmin"
+            type="text"
+            placeholder="Search by email"
+            value={searchEmail}
+            onChange={handleSearchEmailChange}
+            style={{ marginRight: "10px" }}
+          />
+          <select
+            className="searchAdmin"
+            value={searchVerification}
+            onChange={handleSearchVerificationChange}
+            style={{ marginRight: "10px" }}
+          >
+            <option value="">All Coach</option>
+            <option value="valide">valide</option>
+            <option value="en attant">en attant</option>
+          </select>
+        </div>
+      </div>
       <Dialog open={addDialogOpen} onClose={handleAddCancel}>
         <DialogContent>
           <ADD />
@@ -126,7 +171,7 @@ const TableCoach = () => {
           </tr>
         </thead>
         <tbody>
-          {data.map((item) => (
+          {filteredData.map((item) => (
             <tr key={item.id}>
               <td>
                 <img src={item.image} alt={item.name} />

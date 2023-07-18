@@ -131,6 +131,7 @@ export default function CreateType() {
           <input type="file" onChange={handleFileChange} />
 
           <TextField
+            type="number"
             id="kg"
             name="kg"
             label="Kg"
@@ -140,6 +141,7 @@ export default function CreateType() {
             helperText={errors.kg?.message?.toString()}
           />
           <TextField
+            type="number"
             id="price"
             name="price"
             label="Price"

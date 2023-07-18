@@ -14,6 +14,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 interface Contact {
   _id: string;
@@ -80,6 +81,9 @@ const Table = () => {
 
   return (
     <>
+      <Head>
+        <title>Liste contact</title>
+      </Head>
       <table className="pro-table pro-tablee">
         <thead>
           <tr>

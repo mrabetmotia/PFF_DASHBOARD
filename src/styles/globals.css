@@ -37,6 +37,23 @@ h3{
     transform: scale(1.1);
 }
 
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px;
+  }
+  
+  .searchFields {
+    display: flex;
+    align-items: center;
+  }
+  
+  .searchFields .searchUser,
+  .searchFields .searchAdmin {
+    margin-right: 10px;
+  }
+
 .coach-detail {
     margin: 10% 0 0 12%;
     padding: 20px;
@@ -117,11 +134,11 @@ main{
 
 .searchUser{
     width: 30%;
-    margin: 10% 0 0 33%;
+    margin: 2% 0 0 30%;
     border-radius: 50px;
 }
 .searchAdmin{
-    width: 30%;
+    width: 80%;
     margin: 1% 0 0 33%;
     border-radius: 50px;
 }

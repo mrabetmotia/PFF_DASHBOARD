@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
+import Head from "next/head";
 
 const TypeDetail = () => {
   const router = useRouter();
@@ -48,6 +49,9 @@ const TypeDetail = () => {
 
   return (
     <center>
+      <Head>
+        <title>Type detail</title>
+      </Head>
       <div className="type-detail">
         <h1>Type Detail</h1>
         <input

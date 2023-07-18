@@ -15,6 +15,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/router";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import Head from "next/head";
+
 interface User {
   _id: string;
   first_name: string;
@@ -115,7 +117,10 @@ const Table = () => {
 
   return (
     <>
-      <div>
+      <Head>
+        <title>Liste de user</title>
+      </Head>
+      <div style={{ margin:"10% 0 0 20%" }}>
         <input
           className="searchUser"
           type="text"
@@ -123,8 +128,9 @@ const Table = () => {
           value={searchEmail}
           onChange={handleSearchEmailChange}
         />
+        <br />
         <select
-          className="searchAdmin"
+          className="searchUser"
           value={searchRole}
           onChange={handleSearchRoleChange}
         >

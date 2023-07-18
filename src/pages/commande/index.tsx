@@ -13,6 +13,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 interface ICommande {
   _id: string;
@@ -32,6 +33,7 @@ const CommandeTable = () => {
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const { isLoggedIn } = useAuth();
   const router = useRouter();
+  const [searchValidation, setSearchValidation] = useState("");
 
   useEffect(() => {
     fetchData();
@@ -78,6 +80,17 @@ const CommandeTable = () => {
   const getStatusColor = (verification:any) => {
     return verification === "valide" ? "green" : "red";
   };
+
+  const handleSearchValidationChange = (event:any) => {
+    setSearchValidation(event.target.value);
+  };
+  
+  const filteredData = data.filter(
+    (item) =>
+      item.verification.toLowerCase().includes(searchValidation.toLowerCase())
+  );
+  
+
   useEffect(() => {
     if (!isLoggedIn) {
       router.push("/");
@@ -85,7 +98,19 @@ const CommandeTable = () => {
   }, [isLoggedIn, router]);
   return (
     <>
+      <Head>
+        <title>Liste de commande</title>
+      </Head>
       <h1 className="Titre">Liste De Commande</h1>
+      <select
+            className="searchCommande"
+            value={searchValidation}
+            onChange={handleSearchValidationChange}
+          >
+            <option value="">All Commande</option>
+            <option value="valide">Valide</option>
+            <option value="en attant">En attant</option>
+          </select>
       <table className="commande-table">
         <thead>
           <tr>
@@ -99,7 +124,7 @@ const CommandeTable = () => {
           </tr>
         </thead>
         <tbody>
-          {data.map((item) => (
+          {filteredData.map((item) => (
             <tr key={item._id}>
               <td>
                 <img src={item.image_produit} />

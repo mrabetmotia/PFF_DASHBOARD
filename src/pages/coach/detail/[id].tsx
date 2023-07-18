@@ -5,6 +5,7 @@ import { Button } from "@mui/material";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Head from "next/head";
 
 const CoachDetail = () => {
   const router = useRouter();
@@ -55,6 +56,9 @@ const CoachDetail = () => {
 
   return (
     <>
+      <Head>
+        <title>Coach detail</title>
+      </Head>
       <div className="coach-detail" style={{ padding: "20px" }}>
         <h1 style={{ textAlign: "center", color: "#3f51b5" }}>Coach Detail</h1>
         <center style={{ padding: "20px" }}>
